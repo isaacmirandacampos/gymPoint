@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import Students from '../models/Students';
+import Student from '../models/Student';
 
 class StudentController {
   async store(req, res) {
@@ -28,14 +28,14 @@ class StudentController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json('Invalid Body');
     }
-    const studentExist = await Students.findOne({
+    const studentExist = await Student.findOne({
       where: { email: req.body.email },
     });
 
     if (studentExist) {
       return res.status(400).json('Student exist');
     }
-    const { id, name, email } = await Students.create(req.body);
+    const { id, name, email } = await Student.create(req.body);
     return res.json({
       student: {
         id,
