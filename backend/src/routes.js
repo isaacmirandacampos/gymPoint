@@ -17,7 +17,8 @@ routes.post('/students', StudentController.store);
 
 routes.post('/schemes', SchemeController.store);
 routes.get('/schemes', SchemeController.index);
-routes.delete('/schemes/:id', SchemeController.delete);
+routes.put('/schemes/:SchemeId', SchemeController.update);
+routes.delete('/schemes/:SchemeId', SchemeController.delete);
 
 routes.put('/users', UserController.update);
 

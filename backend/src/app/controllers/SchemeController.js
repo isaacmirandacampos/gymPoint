@@ -35,8 +35,39 @@ class SchemeController {
     return res.json({ title, duration, price });
   }
 
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string(),
+      duration: Yup.number().integer(),
+      price: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json('Invalid filds');
+    }
+
+    const scheme = await Scheme.findByPk(req.params.SchemeId);
+
+    if (!scheme) {
+      return res.status(400).json('Scheme not exist');
+    }
+
+    const { title, duration, price } = await scheme.update(req.body);
+
+    return res.json({ title, duration, price });
+  }
+
   async delete(req, res) {
-    return res.json();
+    const scheme = await Scheme.findByPk(req.params.SchemeId);
+
+    if (!scheme) {
+      return res.status(400).json('Scheme not exist');
+    }
+
+    const { id, title, duration, price } = scheme;
+    await scheme.destroy();
+
+    return res.json({ id, title, duration, price });
   }
 }
 export default new SchemeController();
