@@ -33,7 +33,7 @@ class StudentController {
     });
 
     if (studentExist) {
-      return res.status(400).json('Student exist');
+      return res.status(400).json({ error: 'Student exist' });
     }
     const { id, name, email } = await Student.create(req.body);
     return res.json({

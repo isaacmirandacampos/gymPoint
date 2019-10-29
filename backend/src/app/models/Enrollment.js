@@ -4,27 +4,20 @@ class Enrollment extends Model {
   static init(sequelize) {
     super.init(
       {
-        student_id: Sequelize.INTEGER,
-        plan_id: Sequelize.INTEGER,
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
         price: Sequelize.FLOAT,
       },
       {
         sequelize,
+        modelName: 'Enrollment',
       }
     );
   }
 
   static associate(models) {
-    this.belongsTo(models.Student, {
-      foreignKey: 'Student_id',
-      as: 'student',
-    });
-    this.belongsTo(models.Scheme, {
-      foreignKey: 'scheme_id',
-      as: 'scheme',
-    });
+    this.belongsTo(models.Student, { foreignKey: 'student_id', as: 'student' });
+    this.belongsTo(models.Scheme, { foreignKey: 'plan_id', as: 'plan' });
   }
 }
 export default Enrollment;

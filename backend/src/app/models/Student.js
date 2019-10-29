@@ -12,6 +12,7 @@ class Student extends Model {
       },
       {
         sequelize,
+        modelName: 'Student',
       }
     );
   }

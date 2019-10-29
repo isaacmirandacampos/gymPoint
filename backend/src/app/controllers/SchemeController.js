@@ -7,7 +7,7 @@ class SchemeController {
       attributes: ['id', 'title', 'duration', 'price'],
       order: ['price'],
     });
-    return res.json(scheme);
+    return res.json({ scheme });
   }
 
   async store(req, res) {
@@ -43,13 +43,13 @@ class SchemeController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json('Invalid filds');
+      return res.status(400).json({ error: 'Invalid filds' });
     }
 
     const scheme = await Scheme.findByPk(req.params.SchemeId);
 
     if (!scheme) {
-      return res.status(400).json('Scheme not exist');
+      return res.status(400).json({ error: 'Scheme not exist' });
     }
 
     const { title, duration, price } = await scheme.update(req.body);
@@ -61,7 +61,7 @@ class SchemeController {
     const scheme = await Scheme.findByPk(req.params.SchemeId);
 
     if (!scheme) {
-      return res.status(400).json('Scheme not exist');
+      return res.status(400).json({ error: 'Scheme not exist' });
     }
 
     const { id, title, duration, price } = scheme;

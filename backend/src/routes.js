@@ -4,6 +4,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import SchemeController from './app/controllers/SchemeController';
+import EnrollmentController from './app/controllers/EnrollmentController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -21,5 +22,10 @@ routes.put('/schemes/:SchemeId', SchemeController.update);
 routes.delete('/schemes/:SchemeId', SchemeController.delete);
 
 routes.put('/users', UserController.update);
+
+routes.post('/enrollments', EnrollmentController.store);
+routes.get('/enrollments', EnrollmentController.index);
+routes.put('/enrollments/:enrollmentId', EnrollmentController.update);
+routes.delete('/enrollments/:enrollmentId', EnrollmentController.delete);
 
 export default routes;
