@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
-import { parseISO, startOfHour, isBefore, addMonths } from 'date-fns';
+import { parseISO, startOfHour, isBefore, addMonths, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
 import Scheme from '../models/Scheme';
+import Notification from '../schemas/Notification';
 
 class EnrollmentController {
   async index(req, res) {
@@ -90,6 +92,13 @@ class EnrollmentController {
       end_date,
       price,
     });
+    const formattedDate = format(start_date, "'dia' dd 'de' MMMM yyyy", {
+      locale: pt,
+    });
+    await Notification.create({
+      content: `Parabéns ${student.name}!! Você teve sua matricula efetivada no nosso plano: ${plan.title} que tem ${plan.duration} meses de duração. Suas aulas começam no ${formattedDate}.`,
+    });
+
     return res.json({ enrollment });
   }
 
@@ -139,10 +148,16 @@ class EnrollmentController {
         { model: Scheme, as: 'plan', attributes: ['id', 'title'] },
       ],
     });
+
     if (!enrollment) {
       return res.status(400).json({ error: 'Enrollment not exist' });
     }
+
     await enrollment.destroy();
+
+    await Notification.create({
+      content: `Caro ${enrollment.student.name} esse e-mail é para confirmar que sua matricula foi cancelada como solicitada, caso deseje voltar com a parceria, é só você responder este mesmo e-mail`,
+    });
     return res.json({ enrollment });
   }
 }

@@ -5,6 +5,7 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import SchemeController from './app/controllers/SchemeController';
 import EnrollmentController from './app/controllers/EnrollmentController';
+import NotificationController from './app/controllers/NotificationController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -27,5 +28,8 @@ routes.post('/enrollments', EnrollmentController.store);
 routes.get('/enrollments', EnrollmentController.index);
 routes.put('/enrollments/:enrollmentId', EnrollmentController.update);
 routes.delete('/enrollments/:enrollmentId', EnrollmentController.delete);
+
+routes.get('/notifications', NotificationController.index);
+routes.put('/notifications/:id', NotificationController.update);
 
 export default routes;
