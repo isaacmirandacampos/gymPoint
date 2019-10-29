@@ -5,6 +5,7 @@ import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
 import Scheme from '../models/Scheme';
 import Notification from '../schemas/Notification';
+import Mail from '../../lib/Mail';
 
 class EnrollmentController {
   async index(req, res) {
@@ -92,11 +93,22 @@ class EnrollmentController {
       end_date,
       price,
     });
-    const formattedDate = format(start_date, "'dia' dd 'de' MMMM yyyy", {
+    const formattedDate = format(start_date, "dd 'de' MMMM yyyy", {
       locale: pt,
     });
     await Notification.create({
-      content: `Parabéns ${student.name}!! Você teve sua matricula efetivada no nosso plano: ${plan.title} que tem ${plan.duration} meses de duração. Suas aulas começam no ${formattedDate}.`,
+      content: `Parabéns ${student.name}!! Você teve sua matricula efetivada no nosso plano: ${plan.title} que tem ${plan.duration} meses de duração. Suas aulas começam no dia ${formattedDate}.`,
+    });
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Matricula efetuada',
+      template: 'enrollment',
+      context: {
+        student: student.name,
+        plan: plan.title,
+        date: formattedDate,
+      },
     });
 
     return res.json({ enrollment });
@@ -157,6 +169,14 @@ class EnrollmentController {
 
     await Notification.create({
       content: `Caro ${enrollment.student.name} esse e-mail é para confirmar que sua matricula foi cancelada como solicitada, caso deseje voltar com a parceria, é só você responder este mesmo e-mail`,
+    });
+    await Mail.sendMail({
+      to: `${enrollment.student.name} <${enrollment.student.email}>`,
+      subject: 'Cancelamento de matricula',
+      template: 'cancellation',
+      context: {
+        student: enrollment.student.name,
+      },
     });
     return res.json({ enrollment });
   }
