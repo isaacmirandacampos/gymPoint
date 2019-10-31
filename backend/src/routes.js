@@ -6,6 +6,7 @@ import StudentController from './app/controllers/StudentController';
 import SchemeController from './app/controllers/SchemeController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import NotificationController from './app/controllers/NotificationController';
+import CheckinsController from './app/controllers/CheckinsController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -16,6 +17,9 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 routes.post('/students', StudentController.store);
+
+routes.get('/students/:student_id/checkins', CheckinsController.index);
+routes.post('/students/:student_id/checkins', CheckinsController.store);
 
 routes.post('/schemes', SchemeController.store);
 routes.get('/schemes', SchemeController.index);
@@ -31,5 +35,7 @@ routes.delete('/enrollments/:enrollmentId', EnrollmentController.delete);
 
 routes.get('/notifications', NotificationController.index);
 routes.put('/notifications/:id', NotificationController.update);
+
+routes.post('/');
 
 export default routes;

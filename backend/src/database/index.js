@@ -5,16 +5,18 @@ import User from '../app/models/User';
 import Student from '../app/models/Student';
 import Scheme from '../app/models/Scheme';
 import Enrollment from '../app/models/Enrollment';
+import Checkins from '../app/models/Checkins';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Student, Scheme, Enrollment];
+const models = [User, Student, Scheme, Enrollment, Checkins];
 
 class Database {
   constructor() {
     this.init();
     this.mongo();
     Enrollment.associate(this.connection.models);
+    Checkins.associate(this.connection.models);
   }
 
   init() {
