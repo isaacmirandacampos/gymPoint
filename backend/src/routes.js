@@ -7,6 +7,7 @@ import SchemeController from './app/controllers/SchemeController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import NotificationController from './app/controllers/NotificationController';
 import CheckinsController from './app/controllers/CheckinsController';
+import HelpOrdersController from './app/controllers/HelpOrdersController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -20,6 +21,13 @@ routes.post('/students', StudentController.store);
 
 routes.get('/students/:student_id/checkins', CheckinsController.index);
 routes.post('/students/:student_id/checkins', CheckinsController.store);
+
+routes.get('/students/help-orders', HelpOrdersController.index);
+routes.post('/students/:student_id/help-orders', HelpOrdersController.store);
+routes.put(
+  '/students/help-orders/:id_answer/answer',
+  HelpOrdersController.update
+);
 
 routes.post('/schemes', SchemeController.store);
 routes.get('/schemes', SchemeController.index);

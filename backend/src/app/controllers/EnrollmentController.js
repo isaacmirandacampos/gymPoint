@@ -46,7 +46,7 @@ class EnrollmentController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json('incomplete fields');
+      return res.status(400).json({ error: 'incomplete fields' });
     }
     const student = await Student.findOne({
       where: { id: req.body.student_id },

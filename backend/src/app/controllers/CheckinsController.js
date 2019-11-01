@@ -13,13 +13,13 @@ class CheckinsController {
     });
 
     if (!(await schema.isValid(req.params))) {
-      return res.status(400).json('Invalid ID');
+      return res.status(400).json({ error: 'Invalid ID' });
     }
     const { student_id } = req.params;
     const { id, name, email } = await Student.findByPk(student_id);
 
     if (!name) {
-      return res.status(400).json('User not exist');
+      return res.status(400).json({ error: 'User not exist' });
     }
 
     const checkins = await Checkins.findAll({
