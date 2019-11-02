@@ -1,5 +1,4 @@
 import express from 'express';
-import { resolve } from 'path';
 import Youch from 'youch';
 import 'express-async-errors';
 import routes from './routes';
@@ -9,15 +8,14 @@ import './database';
 class App {
   constructor() {
     this.server = express();
-
     this.middlewares();
+
     this.routes();
     this.exceptionHandler();
   }
 
   middlewares() {
     this.server.use(express.json());
-    this.server.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
   }
 
   routes() {

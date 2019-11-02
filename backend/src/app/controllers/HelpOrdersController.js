@@ -1,16 +1,19 @@
 import * as Yup from 'yup';
 import Student from '../models/Student';
-import Help_orders from '../models/Help_orders';
+import HelpOrders from '../models/HelpOrders';
 
-class Help_ordersController {
+import HelpOrdersMail from '../jobs/HelpOrdersMail';
+import Queue from '../../lib/Queue';
+
+class HelpOrdersController {
   async index(req, res) {
-    const questions = await Help_orders.findAll({
+    const questions = await HelpOrders.findAll({
       where: { answer: null },
       attributes: ['id', 'question'],
       include: [
         {
           model: Student,
-          as: 'help_olders',
+          as: 'helpOrders',
           attributes: ['id', 'name', 'email'],
         },
       ],
@@ -48,7 +51,7 @@ class Help_ordersController {
 
     req.body.student_id = student_id;
 
-    const question = await Help_orders.create(req.body);
+    const question = await HelpOrders.create(req.body);
     return res.json({ question });
   }
 
@@ -71,15 +74,26 @@ class Help_ordersController {
       return res.status(400).json({ error: 'error with answer' });
     }
     const id = req.params.id_answer;
-    const question = await Help_orders.findOne({ where: { id, answer: null } });
+    const question = await HelpOrders.findOne({
+      where: { id, answer: null },
+      include: [
+        { model: Student, as: 'helpOrders', attributes: ['name', 'email'] },
+      ],
+    });
 
     if (!question) {
       return res.status(400).json('question not exist');
     }
-    req.body.answer_at = new Date();
-    const questionAtt = await question.update(req.body);
+    req.body.answerAt = new Date();
+
+    const questionAtt = await question.update({
+      answer: req.body.answer,
+      answer_at: new Date(),
+    });
+    const { helpOrders, ask, answer } = questionAtt;
+    await Queue.add(HelpOrdersMail.key, { helpOrders, ask, answer });
 
     return res.json({ questionAtt });
   }
 }
-export default new Help_ordersController();
+export default new HelpOrdersController();

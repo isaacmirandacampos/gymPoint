@@ -6,11 +6,11 @@ import Student from '../app/models/Student';
 import Scheme from '../app/models/Scheme';
 import Enrollment from '../app/models/Enrollment';
 import Checkins from '../app/models/Checkins';
-import Help_orders from '../app/models/Help_orders';
+import HelpOrders from '../app/models/HelpOrders';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Student, Scheme, Enrollment, Checkins, Help_orders];
+const models = [User, Student, Scheme, Enrollment, Checkins, HelpOrders];
 
 class Database {
   constructor() {
@@ -18,7 +18,7 @@ class Database {
     this.mongo();
     Enrollment.associate(this.connection.models);
     Checkins.associate(this.connection.models);
-    Help_orders.associate(this.connection.models);
+    HelpOrders.associate(this.connection.models);
   }
 
   init() {

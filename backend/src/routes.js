@@ -44,6 +44,4 @@ routes.delete('/enrollments/:enrollmentId', EnrollmentController.delete);
 routes.get('/notifications', NotificationController.index);
 routes.put('/notifications/:id', NotificationController.update);
 
-routes.post('/');
-
 export default routes;
