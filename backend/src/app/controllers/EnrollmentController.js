@@ -3,7 +3,7 @@ import { parseISO, startOfHour, isBefore, addMonths, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
-import Scheme from '../models/Scheme';
+import Plan from '../models/Plan';
 import Notification from '../schemas/Notification';
 
 import EnrollmentMail from '../jobs/EnrollmentMail';
@@ -22,7 +22,7 @@ class EnrollmentController {
           attributes: ['id', 'name'],
         },
         {
-          model: Scheme,
+          model: Plan,
           as: 'plan',
           attributes: ['id', 'title', 'duration'],
         },
@@ -135,7 +135,7 @@ class EnrollmentController {
         .json({ error: 'Enrollment not exist for alteration' });
     }
 
-    const { price, duration } = await Scheme.findOne({
+    const { price, duration } = await Plan.findOne({
       where: { id: req.body.plan_id },
     });
 
@@ -154,7 +154,7 @@ class EnrollmentController {
       attributes: ['id', 'start_date', 'end_date', 'price'],
       include: [
         { model: Student, as: 'student', attributes: ['id', 'name', 'email'] },
-        { model: Scheme, as: 'plan', attributes: ['id', 'title'] },
+        { model: Plan, as: 'plan', attributes: ['id', 'title'] },
       ],
     });
 

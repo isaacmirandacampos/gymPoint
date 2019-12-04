@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Scheme extends Model {
+class Plan extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -10,9 +10,9 @@ class Scheme extends Model {
       },
       {
         sequelize,
-        modelName: 'Scheme',
+        modelName: 'Plan',
       }
     );
   }
 }
-export default Scheme;
+export default Plan;

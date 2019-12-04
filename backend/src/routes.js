@@ -3,7 +3,7 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
-import SchemeController from './app/controllers/SchemeController';
+import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import NotificationController from './app/controllers/NotificationController';
 import CheckinsController from './app/controllers/CheckinsController';
@@ -13,7 +13,7 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.post('/users', UserController.store);
+routes.post('/register', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
@@ -29,10 +29,10 @@ routes.put(
   HelpOrdersController.update
 );
 
-routes.post('/schemes', SchemeController.store);
-routes.get('/schemes', SchemeController.index);
-routes.put('/schemes/:SchemeId', SchemeController.update);
-routes.delete('/schemes/:SchemeId', SchemeController.delete);
+routes.post('/plans', PlanController.store);
+routes.get('/plans', PlanController.index);
+routes.put('/plans/:planId', PlanController.update);
+routes.delete('/plans/:planId', PlanController.delete);
 
 routes.put('/users', UserController.update);
 
