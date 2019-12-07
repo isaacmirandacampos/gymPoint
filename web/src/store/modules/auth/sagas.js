@@ -16,9 +16,11 @@ export function* signIn({ payload }) {
 
     const { token, user } = response.data;
 
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
     yield put(signInSuccess(token, user));
 
-    history.push('/dashboard');
+    history.push('/students');
   } catch (e) {
     toast.error('Revise seu e-mail e senha');
   }
