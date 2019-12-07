@@ -1,22 +1,36 @@
 import React from 'react';
+
+import { Container, ScrollTable } from './styles';
 export default function Students() {
   return (
-    <div>
+    <Container>
       <header>
         <h2>Gerenciando alunos</h2>
-        <aside>
+        <div>
           <button>Cadastrar</button>
           <input type="search" placeholder="Buscar Aluno" name="buscar" />
-        </aside>
+        </div>
       </header>
-      <table>
-        <thead>
-          <h3>nome</h3>
-          <h3>e-mail</h3>
-          <h3>idade</h3>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+      <ScrollTable>
+        <table>
+          <tbody>
+            <tr>
+              <th>nome</th>
+              <th>e-mail</th>
+              <th>idade</th>
+            </tr>
+            <tr>
+              <td>Robert Braganca</td>
+              <td>robert.s.braganca@gmail.com</td>
+              <td>19</td>
+              <td>
+                <button>editar</button>
+                <button>apagar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ScrollTable>
+    </Container>
   );
 }
