@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
+import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
+
 export default function Students() {
+  const [students, setStudents] = useState({});
+
+  useEffect(() => {
+    async function handleStudent() {
+      const students = await api.get('students');
+      setStudents(students);
+    }
+    handleStudent();
+  }, []);
   return (
     <Container>
       <header>
