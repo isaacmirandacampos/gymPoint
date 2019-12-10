@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
-import colors from '../../../styles/colors';
+import { lighten } from 'polished';
+import colors from './colors';
 
 export const Container = styled.div`
   width: 1200px;
@@ -34,6 +34,9 @@ export const Container = styled.div`
         border-radius: 4px;
         border: 0;
         border-bottom: 1px solid #ddd;
+      }
+      input:last-child {
+        background-color: #ddd;
       }
     }
 

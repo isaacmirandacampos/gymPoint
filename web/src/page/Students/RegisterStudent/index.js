@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history';
 import api from '../../../services/api';
 
-import { Container } from './styles';
+import { Container } from '../../../styles/register';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('nome obrigatorio'),

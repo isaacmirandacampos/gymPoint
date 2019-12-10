@@ -18,7 +18,11 @@ export default function Students() {
   }, []);
 
   function handleRegisterStudent() {
-    history.push('/register-student');
+    history.push('/student-register');
+  }
+
+  function handleEdit() {
+    history.push('/student-edit');
   }
 
   async function handleDelete(id) {
@@ -46,7 +50,7 @@ export default function Students() {
         <td>{student.email}</td>
         <td>{student.idade}</td>
         <td>
-          <button>editar</button>
+          <button onClick={handleEdit}>editar</button>
           <button onClick={() => handleDelete(student.id)}>apagar</button>
         </td>
       </tr>

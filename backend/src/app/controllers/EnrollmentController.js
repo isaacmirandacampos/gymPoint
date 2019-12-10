@@ -13,7 +13,7 @@ import Queue from '../../lib/Queue';
 class EnrollmentController {
   async index(req, res) {
     const { page = 1 } = req.query;
-    const enrollment = await Enrollment.findAll({
+    const Enrollments = await Enrollment.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price'],
       include: [
         {
@@ -24,14 +24,14 @@ class EnrollmentController {
         {
           model: Plan,
           as: 'plan',
-          attributes: ['id', 'title', 'duration'],
+          attributes: ['id', 'title', 'duration', 'createdAt'],
         },
       ],
 
       limit: 20,
       offset: (page - 1) * 20,
     });
-    return res.json({ enrollment });
+    return res.json({ Enrollments });
   }
 
   async store(req, res) {
@@ -48,6 +48,7 @@ class EnrollmentController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'incomplete fields' });
     }
+
     const student = await Student.findOne({
       where: { id: req.body.student_id },
       attributes: ['id', 'name', 'email'],
@@ -57,8 +58,10 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Student not exist' });
     }
 
-    const plan = await Scheme.findOne({
-      where: { id: req.body.plan_id },
+    const { plan_id } = req.body;
+
+    const plan = await Plan.findOne({
+      where: { id: plan_id },
       attributes: ['id', 'title', 'duration', 'price'],
     });
 
