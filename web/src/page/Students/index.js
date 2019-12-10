@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
 
@@ -15,12 +16,16 @@ export default function Students() {
     handleStudent();
   }, []);
 
+  function handleRegisterStudent() {
+    history.push('/register-student');
+  }
+
   return (
     <Container>
       <header>
         <h2>Gerenciando alunos</h2>
         <div>
-          <button>Cadastrar</button>
+          <button onClick={handleRegisterStudent}>Cadastrar</button>
           <input type="search" placeholder="Buscar Aluno" name="buscar" />
         </div>
       </header>
