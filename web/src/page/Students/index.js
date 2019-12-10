@@ -4,15 +4,17 @@ import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
 
 export default function Students() {
-  const [students, setStudents] = useState({});
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     async function handleStudent() {
-      const students = await api.get('students');
-      setStudents(students);
+      const response = await api.get('students');
+      const { Students } = response.data;
+      setStudents(Students);
     }
     handleStudent();
   }, []);
+
   return (
     <Container>
       <header>
@@ -30,15 +32,17 @@ export default function Students() {
               <th>e-mail</th>
               <th>idade</th>
             </tr>
-            <tr>
-              <td>Robert Braganca</td>
-              <td>robert.s.braganca@gmail.com</td>
-              <td>19</td>
-              <td>
-                <button>editar</button>
-                <button>apagar</button>
-              </td>
-            </tr>
+            {students.map(student => (
+              <tr key={student.id}>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.idade}</td>
+                <td>
+                  <button>editar</button>
+                  <button>apagar</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </ScrollTable>
