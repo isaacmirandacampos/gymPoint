@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
+import { toast } from 'react-toastify';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -18,6 +19,38 @@ export default function Students() {
 
   function handleRegisterStudent() {
     history.push('/register-student');
+  }
+
+  async function handleDelete(id) {
+    try {
+      const indexStudent = students.findIndex(student => student.id === id);
+      const listStudents = students;
+
+      listStudents.splice(indexStudent, 1);
+
+      const response = await api.delete(`students?id=${id}`);
+
+      const { name } = response.data;
+
+      toast.success(`Estudante ${name} deletado`);
+      setStudents(listStudents);
+    } catch (err) {
+      toast.error('Nao foi possivel deletar');
+    }
+  }
+
+  function handleRender() {
+    return students.map(student => (
+      <tr key={student.id}>
+        <td>{student.name}</td>
+        <td>{student.email}</td>
+        <td>{student.idade}</td>
+        <td>
+          <button>editar</button>
+          <button onClick={() => handleDelete(student.id)}>apagar</button>
+        </td>
+      </tr>
+    ));
   }
 
   return (
@@ -37,17 +70,7 @@ export default function Students() {
               <th>e-mail</th>
               <th>idade</th>
             </tr>
-            {students.map(student => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.idade}</td>
-                <td>
-                  <button>editar</button>
-                  <button>apagar</button>
-                </td>
-              </tr>
-            ))}
+            {handleRender()}
           </tbody>
         </table>
       </ScrollTable>

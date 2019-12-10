@@ -49,5 +49,20 @@ class StudentController {
       },
     });
   }
+
+  async delete(req, res) {
+    const { id } = req.query;
+
+    const student = await Student.findByPk(id);
+
+    if (!student) {
+      return res.status(400).json({ error: 'Student not exist' });
+    }
+
+    const { name } = student;
+    await student.destroy();
+
+    return res.json({ name });
+  }
 }
 export default new StudentController();
