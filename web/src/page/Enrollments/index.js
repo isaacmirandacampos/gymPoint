@@ -23,7 +23,7 @@ export default function Enrollments() {
 
   function handleRender() {
     return enrollments.map(enrollment => (
-      <tr>
+      <tr key={enrollment.id}>
         <td>{enrollment.student.name}</td>
         <td>{enrollment.plan.title}</td>
         <td>{enrollment.plan.createdAt}</td>

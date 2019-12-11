@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [idDelete, setIdDelete] = useState();
 
   useEffect(() => {
     async function handleStudent() {
@@ -15,7 +16,7 @@ export default function Students() {
       setStudents(Students);
     }
     handleStudent();
-  }, []);
+  }, [idDelete]);
 
   function handleRegisterStudent() {
     history.push('/student-register');
@@ -27,34 +28,12 @@ export default function Students() {
 
   async function handleDelete(id) {
     try {
-      const indexStudent = students.findIndex(student => student.id === id);
-      const listStudents = students;
-
-      listStudents.splice(indexStudent, 1);
-
-      const response = await api.delete(`students?id=${id}`);
-
-      const { name } = response.data;
-
-      toast.success(`Estudante ${name} deletado`);
-      setStudents(listStudents);
+      await api.delete(`students/${id}`);
+      toast.success('Estudante deletado com sucesso');
+      setIdDelete(id);
     } catch (err) {
       toast.error('Nao foi possivel deletar');
     }
-  }
-
-  function handleRender() {
-    return students.map(student => (
-      <tr key={student.id}>
-        <td>{student.name}</td>
-        <td>{student.email}</td>
-        <td>{student.idade}</td>
-        <td>
-          <button onClick={handleEdit}>editar</button>
-          <button onClick={() => handleDelete(student.id)}>apagar</button>
-        </td>
-      </tr>
-    ));
   }
 
   return (
@@ -74,7 +53,19 @@ export default function Students() {
               <th>e-mail</th>
               <th>idade</th>
             </tr>
-            {handleRender()}
+            {students.map(student => (
+              <tr key={student.id}>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.idade}</td>
+                <td>
+                  <button onClick={handleEdit}>editar</button>
+                  <button onClick={() => handleDelete(student.id)}>
+                    apagar
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </ScrollTable>

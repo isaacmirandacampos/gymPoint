@@ -7,32 +7,29 @@ import { toast } from 'react-toastify';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const [idDelete, setIdDelete] = useState(-1);
 
   useEffect(() => {
     async function handleState() {
-      const response = await api.get('/plans');
+      const response = await api.get('plans');
       const { Plans } = response.data;
       setPlans(Plans);
     }
     handleState();
-  }, []);
+  }, [idDelete]);
+
+  async function handleDelete(id) {
+    try {
+      await api.delete(`plans/${id}`);
+      toast.success('Deletedo com sucesso');
+      setIdDelete(id);
+    } catch (err) {
+      toast.error('Algo deu errado, tente novamente');
+    }
+  }
 
   function handleRegister() {
     history.push('/plans-register');
-  }
-
-  function handleRender() {
-    return plans.map(plan => (
-      <tr>
-        <td>{plan.title}</td>
-        <td>{plan.duration}</td>
-        <td>{plan.price}</td>
-        <td>
-          <button>editar</button>
-          <button>apagar</button>
-        </td>
-      </tr>
-    ));
   }
 
   return (
@@ -51,7 +48,21 @@ export default function Plans() {
               <th>duração</th>
               <th>Valor p/ mês</th>
             </tr>
-            {handleRender()}
+            {plans.map(plan => (
+              <tr key={plan.id}>
+                <td>{plan.title}</td>
+                <td>{plan.duration}</td>
+                <td>{plan.price}</td>
+                <td>
+                  <input type="button" value="editar"></input>
+                  <input
+                    value="apagar"
+                    type="button"
+                    onClick={() => handleDelete(plan.id)}
+                  ></input>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </ScrollTable>

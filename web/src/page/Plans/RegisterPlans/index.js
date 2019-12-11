@@ -45,7 +45,7 @@ export default function RegisterPlans() {
   return (
     <Container>
       <header>
-        <h2>Gerenciando alunos</h2>
+        <h2>Gerenciando de planos</h2>
         <div>
           <button onClick={handleBack} id="back">
             Voltar
