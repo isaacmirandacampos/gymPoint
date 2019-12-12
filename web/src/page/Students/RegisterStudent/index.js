@@ -47,7 +47,7 @@ export default function RegisterStudent() {
       <Form schema={schema} onSubmit={handleRegister}>
         <div className="big">
           <p>Nome do aluno</p>
-          <Input className="bigInput" type="name" name="name" />
+          <Input className="bigInput" type="name" autoFocus name="name" />
         </div>
         <div className="big">
           <p>E-mail do aluno</p>

@@ -61,7 +61,7 @@ export default function EditStudent() {
       <Form schema={schema} initialData={student} onSubmit={handleEdit}>
         <div className="big">
           <p>Nome do aluno</p>
-          <Input type="name" name="name" />
+          <Input type="name" autoFocus name="name" />
         </div>
         <div className="big">
           <p>E-mail do aluno</p>

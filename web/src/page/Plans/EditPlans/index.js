@@ -66,7 +66,7 @@ export default function EditStudent() {
       <Form schema={schema} initialData={plan} onSubmit={handleEdit}>
         <div className="big">
           <p>Titulo do plano</p>
-          <Input type="name" autoComplete name="title" />
+          <Input type="name" autoFocus name="title" />
         </div>
         <div>
           <div>

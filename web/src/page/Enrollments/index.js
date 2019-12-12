@@ -68,7 +68,7 @@ export default function Enrollments() {
               <th>Ativa</th>
             </tr>
             {enrollments.map(enrollment => (
-              <tr>
+              <tr key={enrollment.id}>
                 <td>{enrollment.student.name}</td>
                 <td>{enrollment.plan.title}</td>
                 <td>{enrollment.formattedInitDate}</td>

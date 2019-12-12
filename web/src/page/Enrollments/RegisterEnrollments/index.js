@@ -47,7 +47,13 @@ export default function RegisterPlans() {
       <Form schema={schema} onSubmit={handleRegister}>
         <div className="big">
           <p>Nome do aluno</p>
-          <Input type="name" placeholder="Nome do aluno" name="name" required />
+          <Input
+            type="name"
+            autoFocus
+            placeholder="Nome do aluno"
+            name="name"
+            required
+          />
         </div>
         <div>
           <div>
