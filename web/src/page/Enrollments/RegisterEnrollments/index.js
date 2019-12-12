@@ -10,19 +10,23 @@ import api from '../../../services/api';
 import { Container } from '../../../styles/register';
 
 const schema = Yup.object().shape({
-  title: Yup.string().required('Nome obrigatorio'),
-  duration: Yup.number('Duracao em meses').required('duracao e obrigatorio'),
-  price: Yup.number('Digite o valor por mes').required('Preco obrigatorio'),
+  name: Yup.string().required('Nome do estudante e obrigatorio'),
+  title: Yup.string('Nome do plano').required('Nome e obrigatorio'),
+  start_date: Yup.date('Digite a data de inicio').required('Data obrigatoria'),
 });
 
 export default function RegisterPlans() {
-  async function handleRegister({ student, plan, start_date }) {
+  async function handleRegister({ name, title, start_date }) {
     try {
-      await api.post('enrollments', { student, plan, start_date });
-      toast.success('Plano cadastrado com sucesso');
-      history.push('/plans');
+      await api.post('enrollments', {
+        name,
+        title,
+        start_date,
+      });
+      toast.success('Matricula do cadastrado com sucesso');
+      history.push('/enrollments');
     } catch (err) {
-      toast.error('Falha no cadastramento do plano, tente novamente');
+      toast.error('Falha no cadastramento da matricula, tente novamente');
     }
   }
 
@@ -45,30 +49,16 @@ export default function RegisterPlans() {
           className="bigInput"
           type="name"
           placeholder="Nome do aluno"
-          name="student"
+          name="name"
           required
         />
         <div>
-          <Input type="text" placeholder="Plano" required name="plan" />
+          <Input type="text" placeholder="Plano" required name="title" />
           <Input
             type="date"
             placeholder="Data de inicio"
             required
             name="start_date"
-          />
-          <Input
-            type="date"
-            placeholder="Data Final"
-            required
-            readOnly
-            name="finalDate"
-          />
-          <Input
-            type="number"
-            placeholder="Valor Final"
-            required
-            readOnly
-            name="finalValue"
           />
         </div>
         <button type="submit">Cadastrar</button>

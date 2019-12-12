@@ -24,7 +24,7 @@ class EnrollmentController {
         {
           model: Plan,
           as: 'plan',
-          attributes: ['id', 'title', 'duration', 'createdAt'],
+          attributes: ['id', 'title', 'price', 'duration', 'createdAt'],
         },
       ],
 
@@ -36,21 +36,17 @@ class EnrollmentController {
 
   async store(req, res) {
     const schema = Yup.object().shape({
-      student_id: Yup.number()
-        .integer()
-        .required(),
-      plan_id: Yup.number()
-        .integer()
-        .required(),
+      name: Yup.string().required(),
+      title: Yup.string().required(),
       start_date: Yup.date().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'incomplete fields' });
     }
-
+    const { name } = req.body;
     const student = await Student.findOne({
-      where: { id: req.body.student_id },
+      where: { name },
       attributes: ['id', 'name', 'email'],
     });
 
@@ -58,10 +54,10 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Student not exist' });
     }
 
-    const { plan_id } = req.body;
+    const { title } = req.body;
 
     const plan = await Plan.findOne({
-      where: { id: plan_id },
+      where: { title },
       attributes: ['id', 'title', 'duration', 'price'],
     });
 
@@ -69,37 +65,25 @@ class EnrollmentController {
       return res.status(400).json({ error: 'plan not exist' });
     }
 
-    const start_date = startOfHour(parseISO(req.body.start_date));
+    const { start_date } = req.body;
 
     if (isBefore(start_date, new Date())) {
       return res.status(400).json({ error: 'the date is past' });
     }
-    req.body.end_date = addMonths(start_date, plan.duration);
 
-    const { end_date } = req.body;
-
-    if (!end_date) {
-      return res.status(400).json({ error: 'failed enrollment' });
-    }
-
+    req.body.end_date = addMonths(new Date(start_date), plan.duration);
     const price = plan.price * plan.duration;
 
     const enrollmentExist = await Enrollment.findOne({
-      where: { student_id: req.body.student_id },
+      where: { student_id: student.id },
     });
 
     if (enrollmentExist) {
       return res.status(400).json({ error: 'This Student is registered' });
     }
+    const { end_date } = req.body;
 
-    const enrollment = await Enrollment.create({
-      student_id: student.id,
-      plan_id: plan.id,
-      start_date,
-      end_date,
-      price,
-    });
-    const formattedDate = format(start_date, "dd 'de' MMMM yyyy", {
+    const formattedDate = format(new Date(start_date), "dd 'de' MMMM yyyy", {
       locale: pt,
     });
     await Notification.create({
@@ -109,6 +93,14 @@ class EnrollmentController {
       student,
       plan,
       formattedDate,
+    });
+
+    const enrollment = await Enrollment.create({
+      student_id: student.id,
+      plan_id: plan.id,
+      start_date,
+      end_date,
+      price,
     });
 
     return res.json({ enrollment });

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { parseISO, format, addMonths, isBefore } from 'date-fns';
+import { parseISO, format, isBefore } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import { MdCheckCircle } from 'react-icons/md';
 
 import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
+import { toast } from 'react-toastify';
 
 export default function Enrollments() {
   const [enrollments, setEnrollments] = useState([]);
+  const [idDelete, setIdDelete] = useState();
 
   useEffect(() => {
     async function handleState() {
@@ -15,35 +18,37 @@ export default function Enrollments() {
       const { Enrollments } = response.data;
 
       const enrollmentDateFormatted = Enrollments.map(enrollment => {
-        enrollment.plan.formatedDate = format(
-          parseISO(enrollment.plan.createdAt),
-          "dd 'de' MMMM 'de' yyyy"
+        enrollment.formattedInitDate = format(
+          parseISO(enrollment.start_date),
+          "dd 'de' MMMM 'de' yyyy",
+          { locale: pt }
         );
-
-        return enrollment;
-      });
-
-      const enrollmenstFinalDate = enrollmentDateFormatted.map(enrollment => {
-        enrollment.plan.finalDate = format(
-          addMonths(
-            parseISO(enrollment.plan.createdAt),
-            enrollment.plan.duration
-          ),
-          "dd 'de' MMMM 'de' yyyy"
+        enrollment.formattedFinalDate = format(
+          parseISO(enrollment.end_date),
+          "dd 'de' MMMM 'de' yyyy",
+          { locale: pt }
         );
         return enrollment;
       });
 
-      setEnrollments(enrollmenstFinalDate);
-      console.tron.log(enrollmenstFinalDate);
+      setEnrollments(enrollmentDateFormatted);
     }
     handleState();
-  }, []);
+  }, [idDelete]);
 
   function handleRegister() {
     history.push('/enrollments-register');
   }
 
+  async function handleDelete(id) {
+    try {
+      await api.delete(`enrollments/${id}`);
+      setIdDelete(id);
+      toast.success('Deletado com sucesso');
+    } catch (err) {
+      toast.error('Falha ao tentar deletar');
+    }
+  }
   return (
     <Container>
       <header>
@@ -66,10 +71,10 @@ export default function Enrollments() {
               <tr>
                 <td>{enrollment.student.name}</td>
                 <td>{enrollment.plan.title}</td>
-                <td>{enrollment.plan.formatedDate}</td>
-                <td>{enrollment.plan.finalDate}</td>
+                <td>{enrollment.formattedInitDate}</td>
+                <td>{enrollment.formattedFinalDate}</td>
                 <td>
-                  {isBefore(enrollment.plan.finalDate, new Date()) ? (
+                  {isBefore(enrollment.formattedFinalDate, new Date()) ? (
                     <MdCheckCircle />
                   ) : (
                     <MdCheckCircle color="green" />
@@ -77,7 +82,9 @@ export default function Enrollments() {
                 </td>
                 <td>
                   <button>editar</button>
-                  <button>apagar</button>
+                  <button onClick={() => handleDelete(enrollment.id)}>
+                    apagar
+                  </button>
                 </td>
               </tr>
             ))}

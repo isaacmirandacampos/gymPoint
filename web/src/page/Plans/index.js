@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
-  const [idDelete, setIdDelete] = useState(-1);
+  const [idDelete, setIdDelete] = useState();
 
   useEffect(() => {
     async function handleState() {
@@ -21,8 +21,8 @@ export default function Plans() {
   async function handleDelete(id) {
     try {
       await api.delete(`plans/${id}`);
-      toast.success('Deletedo com sucesso');
       setIdDelete(id);
+      toast.success('Deletedo com sucesso');
     } catch (err) {
       toast.error('Algo deu errado, tente novamente');
     }
