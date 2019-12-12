@@ -27,7 +27,7 @@ export default function RegisterPlans() {
   }
 
   function handleBack() {
-    history.push('/plans');
+    history.push('/enrollments');
   }
 
   return (
@@ -44,17 +44,12 @@ export default function RegisterPlans() {
         <Input
           className="bigInput"
           type="name"
-          placeholder="Nome do Plano"
+          placeholder="Nome do aluno"
           name="student"
           required
         />
         <div>
-          <Input
-            type="text"
-            placeholder="Duracao do plano"
-            required
-            name="plan"
-          />
+          <Input type="text" placeholder="Plano" required name="plan" />
           <Input
             type="date"
             placeholder="Data de inicio"

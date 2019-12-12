@@ -30,7 +30,7 @@ export default function HelpOrders() {
             </tr>
             {helpOrders.map(help => (
               <tr key={help.id}>
-                <td>help.student.name</td>
+                <td>{help.student.name}</td>
                 <td>
                   <button>responder</button>
                 </td>
