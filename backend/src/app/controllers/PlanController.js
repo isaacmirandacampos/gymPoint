@@ -46,13 +46,13 @@ class PlanController {
       return res.status(400).json({ error: 'Invalid filds' });
     }
 
-    const Plan = await Plan.findByPk(req.params.PlanId);
+    const plan = await Plan.findByPk(req.params.planId);
 
-    if (!Plan) {
+    if (!plan) {
       return res.status(400).json({ error: 'Plan not exist' });
     }
 
-    const { title, duration, price } = await Plan.update(req.body);
+    const { title, duration, price } = await plan.update(req.body);
 
     return res.json({ title, duration, price });
   }

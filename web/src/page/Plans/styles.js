@@ -40,7 +40,7 @@ export const ScrollTable = styled.div`
           text-overflow: ellipsis;
           overflow: hidden;
 
-          input {
+          button {
             color: #00ff;
             background: none;
             border: 0;
@@ -48,7 +48,7 @@ export const ScrollTable = styled.div`
             font-size: 14px;
           }
 
-          input:last-child {
+          button:last-child {
             color: #ff0000;
             margin-left: 20px;
           }

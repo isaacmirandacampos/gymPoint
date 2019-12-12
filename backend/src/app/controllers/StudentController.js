@@ -4,8 +4,15 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const Students = await Student.findAll();
-    res.json({ Students });
+    const { studentId } = req.params;
+
+    if (studentId) {
+      const student = await Student.findOne({ where: { id: studentId } });
+      return res.json({ student });
+    } else {
+      const Students = await Student.findAll();
+      return res.json({ Students });
+    }
   }
 
   async store(req, res) {
@@ -48,6 +55,32 @@ class StudentController {
         email,
       },
     });
+  }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      idade: Yup.number(),
+      peso: Yup.number(),
+      altura: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Fields wrong' });
+    }
+
+    const { studentId } = req.params;
+
+    const student = await Student.findByPk(studentId);
+
+    if (!student) {
+      return res.status(401).json({ error: 'Student not exist' });
+    }
+
+    await student.update(req.body);
+
+    return res.status(200).json({ ok: 'update student' });
   }
 
   async delete(req, res) {

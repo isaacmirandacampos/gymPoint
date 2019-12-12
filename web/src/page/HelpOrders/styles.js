@@ -2,20 +2,13 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 30px;
-  max-width: 80%;
-  min-width: 1200px;
-
-  input {
-    border-radius: 4px;
-    border: 0;
-    padding: 5px 30px;
-    font-size: 16px;
-  }
+  width: 60%;
+  height: 80%;
 `;
 
 export const ScrollTable = styled.div`
   overflow: auto;
-  max-height: 700px;
+  max-height: 600px;
   margin-top: 20px;
 
   table {

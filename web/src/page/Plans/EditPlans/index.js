@@ -51,7 +51,7 @@ export default function EditStudent() {
   return (
     <Container>
       <header>
-        <h2>Editando aluno</h2>
+        <h2>Editando alunos</h2>
         <div>
           <button onClick={handleBack} id="back">
             Voltar
@@ -86,7 +86,7 @@ export default function EditStudent() {
             <Input type="number" step=".01" name="altura" />
           </div>
         </div>
-        <button type="submit">Editar</button>
+        <button type="submit">Cadastrar</button>
       </Form>
     </Container>
   );

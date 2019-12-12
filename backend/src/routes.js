@@ -17,8 +17,10 @@ routes.post('/register', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
-routes.post('/students', StudentController.store);
 routes.get('/students', StudentController.index);
+routes.get('/students/:studentId', StudentController.index);
+routes.post('/students', StudentController.store);
+routes.put('/students/:studentId', StudentController.update);
 routes.delete('/students/:studentId', StudentController.delete);
 
 routes.get('/students/:student_id/checkins', CheckinsController.index);

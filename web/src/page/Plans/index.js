@@ -32,6 +32,10 @@ export default function Plans() {
     history.push('/plans-register');
   }
 
+  function handleEdit(id) {
+    history.push(`plans-edit/${id}`);
+  }
+
   return (
     <Container>
       <header>
@@ -54,12 +58,8 @@ export default function Plans() {
                 <td>{plan.duration}</td>
                 <td>{plan.price}</td>
                 <td>
-                  <input type="button" value="editar"></input>
-                  <input
-                    value="apagar"
-                    type="button"
-                    onClick={() => handleDelete(plan.id)}
-                  ></input>
+                  <button onClick={() => handleEdit(plan.id)}>editar</button>
+                  <button onClick={() => handleDelete(plan.id)}>apagar</button>
                 </td>
               </tr>
             ))}
