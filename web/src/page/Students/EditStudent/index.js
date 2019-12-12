@@ -37,10 +37,10 @@ export default function EditStudent() {
   async function handleEdit({ name, email, idade, peso, altura }) {
     try {
       await api.put(`students/${id}`, { name, email, idade, peso, altura });
-      toast.success('Cadastrado com sucesso');
+      toast.success('Alterado com sucesso');
       history.push('/students');
     } catch (err) {
-      toast.error('Falha no cadastramento, tente novamente');
+      toast.error('Falha na alteracao, tente novamente');
     }
   }
 
@@ -74,12 +74,7 @@ export default function EditStudent() {
           </div>
           <div>
             <p>peso</p>
-            <Input
-              type="number"
-              step=".01"
-              onChange={e => setStudent(e.target.value)}
-              name="peso"
-            />
+            <Input type="number" step=".01" name="peso" />
           </div>
           <div>
             <p>Altura</p>

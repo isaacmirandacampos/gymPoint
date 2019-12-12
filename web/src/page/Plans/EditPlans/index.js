@@ -11,43 +11,48 @@ import api from '../../../services/api';
 import { Container } from '../../../styles/layoutsDefaults';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('nome obrigatorio'),
-  email: Yup.string()
-    .email('Deve ser um e-mail valido')
-    .required('e-mail obrigatorio'),
-  idade: Yup.number('Digite um numero').required('idade obrigatoria'),
-  peso: Yup.number('Digite um numero').required('peso obrigatorio'),
-  altura: Yup.number('Digite um numero').required('altura obrigatoria'),
+  title: Yup.string(),
+  duration: Yup.number('Digite um numero'),
+  price: Yup.number('Digite um numero'),
 });
 
 export default function EditStudent() {
   const { id } = useParams();
 
-  const [student, setStudent] = useState({});
+  const [plan, setPlan] = useState({});
+  const [duration, setDuration] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState();
 
   useEffect(() => {
-    async function getStudent() {
-      const response = await api.get(`students/${id}`);
-      const { student } = response.data;
-      setStudent(student);
+    setTotalPrice(duration * price);
+  }, [duration, price]);
+
+  useEffect(() => {
+    async function getPlan() {
+      const response = await api.get(`plans/${id}`);
+      const { plan } = response.data;
+      setPlan(plan);
+      setDuration(plan.duration);
+      setPrice(plan.price);
     }
-    getStudent();
+    getPlan();
   }, []);
 
-  async function handleEdit({ name, email, idade, peso, altura }) {
+  async function handleEdit({ title, duration, price }) {
     try {
-      await api.put(`students/${id}`, { name, email, idade, peso, altura });
-      toast.success('Cadastrado com sucesso');
-      history.push('/students');
+      await api.put(`plans/${id}`, { title, duration, price });
+      toast.success('Alterado com sucesso');
+      history.push('/plans');
     } catch (err) {
-      toast.error('Falha no cadastramento, tente novamente');
+      toast.error('Falha na alteraçāo, tente novamente');
     }
   }
 
   function handleBack() {
-    history.push('/students');
+    history.push('/plans');
   }
-
+  console.tron.log(id);
   return (
     <Container>
       <header>
@@ -58,35 +63,43 @@ export default function EditStudent() {
           </button>
         </div>
       </header>
-      <Form schema={schema} initialData={student} onSubmit={handleEdit}>
+      <Form schema={schema} initialData={plan} onSubmit={handleEdit}>
         <div className="big">
-          <p>Nome do aluno</p>
-          <Input type="name" name="name" />
-        </div>
-        <div className="big">
-          <p>E-mail do aluno</p>
-          <Input type="email" name="email" />
+          <p>Titulo do plano</p>
+          <Input type="name" autoComplete name="title" />
         </div>
         <div>
           <div>
-            <p>idade</p>
-            <Input type="number" step=".01" name="idade" />
-          </div>
-          <div>
-            <p>peso</p>
+            <p>duraçāo</p>
             <Input
               type="number"
-              step=".01"
-              onChange={e => setStudent(e.target.value)}
-              name="peso"
+              name="duration"
+              onChange={e => setDuration(e.target.value)}
+              value={duration}
             />
           </div>
           <div>
-            <p>Altura</p>
-            <Input type="number" step=".01" name="altura" />
+            <p>Preço mensal</p>
+            <Input
+              type="number"
+              onChange={e => setPrice(e.target.value)}
+              value={price}
+              step=".01"
+              name="price"
+            />
+          </div>
+          <div className="read-only">
+            <p>preço total</p>
+            <Input
+              type="number"
+              placeholder={plan.price * plan.duration}
+              value={totalPrice === 0 ? null : totalPrice}
+              readOnly
+              name="totalPrice"
+            />
           </div>
         </div>
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Editar</button>
       </Form>
     </Container>
   );

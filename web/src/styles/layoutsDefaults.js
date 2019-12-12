@@ -62,7 +62,7 @@ export const Container = styled.div`
       }
 
       div.read-only {
-        width: 15%;
+        width: 20%;
 
         input:read-only {
           background-color: #eee;
@@ -80,6 +80,7 @@ export const Container = styled.div`
       border-radius: 4px;
       font-weight: bold;
       margin-top: 20px;
+      text-transform: uppercase;
     }
     button:hover {
       background: ${colors.second};

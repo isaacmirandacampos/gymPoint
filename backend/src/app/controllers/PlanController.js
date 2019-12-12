@@ -3,11 +3,21 @@ import * as Yup from 'yup';
 
 class PlanController {
   async index(req, res) {
-    const Plans = await Plan.findAll({
-      attributes: ['id', 'title', 'duration', 'price'],
-      order: ['price'],
-    });
-    return res.json({ Plans });
+    const { planId } = req.params;
+
+    if (planId) {
+      const plan = await Plan.findOne({
+        where: { id: planId },
+        order: ['price'],
+      });
+      return res.json({ plan });
+    } else {
+      const Plans = await Plan.findAll({
+        attributes: ['id', 'title', 'duration', 'price'],
+        order: ['price'],
+      });
+      return res.json({ Plans });
+    }
   }
 
   async store(req, res) {
