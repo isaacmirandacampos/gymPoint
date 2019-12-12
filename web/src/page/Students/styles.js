@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 30px;
-  max-width: 80%;
-  min-width: 1200px;
+  width: 90%;
+  height: 90%;
 
   input {
     border-radius: 4px;
@@ -15,7 +15,7 @@ export const Container = styled.div`
 
 export const ScrollTable = styled.div`
   overflow: auto;
-  max-height: 700px;
+  height: 600px;
   margin-top: 20px;
 
   table {
@@ -27,6 +27,7 @@ export const ScrollTable = styled.div`
     tbody {
       tr {
         display: grid;
+
         grid-template-columns: 1fr 1fr 1fr 1fr;
         width: 100%;
         border-bottom: 1px solid #eee;

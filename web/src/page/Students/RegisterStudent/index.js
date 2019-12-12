@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history';
 import api from '../../../services/api';
 
-import { Container } from '../../../styles/register';
+import { Container } from '../../../styles/layoutsDefaults';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('nome obrigatorio'),
@@ -45,43 +45,45 @@ export default function RegisterStudent() {
         </div>
       </header>
       <Form schema={schema} onSubmit={handleRegister}>
-        <Input
-          className="bigInput"
-          type="name"
-          placeholder="Nome do aluno"
-          name="name"
-        />
-        <Input
-          className="bigInput"
-          type="email"
-          placeholder="E-mail do aluno"
-          name="email"
-        />
+        <div className="big">
+          <p>Nome do aluno</p>
+          <Input className="bigInput" type="name" name="name" />
+        </div>
+        <div className="big">
+          <p>E-mail do aluno</p>
+          <Input className="bigInput" type="email" name="email" />
+        </div>
         <div>
-          <Input
-            type="number"
-            step=".01"
-            defaultValue={0}
-            placeholder="Idade do aluno"
-            required
-            name="idade"
-          />
-          <Input
-            type="number"
-            step=".01"
-            defaultValue={0}
-            placeholder="Peso do aluno"
-            required
-            name="peso"
-          />
-          <Input
-            type="number"
-            step=".01"
-            defaultValue={0}
-            placeholder="Altura do aluno"
-            required
-            name="altura"
-          />
+          <div>
+            <p>idade</p>
+            <Input
+              type="number"
+              step=".01"
+              defaultValue={0}
+              required
+              name="idade"
+            />
+          </div>
+          <div>
+            <p>peso</p>
+            <Input
+              type="number"
+              step=".01"
+              defaultValue={0}
+              required
+              name="peso"
+            />
+          </div>
+          <div>
+            <p>Altura</p>
+            <Input
+              type="number"
+              step=".01"
+              defaultValue={0}
+              required
+              name="altura"
+            />
+          </div>
         </div>
         <button type="submit">Cadastrar</button>
       </Form>

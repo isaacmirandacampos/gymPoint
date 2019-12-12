@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history';
 import api from '../../../services/api';
 
-import { Container } from '../../../styles/register';
+import { Container } from '../../../styles/layoutsDefaults';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome do estudante e obrigatorio'),
@@ -45,21 +45,27 @@ export default function RegisterPlans() {
         </div>
       </header>
       <Form schema={schema} onSubmit={handleRegister}>
-        <Input
-          className="bigInput"
-          type="name"
-          placeholder="Nome do aluno"
-          name="name"
-          required
-        />
+        <div className="big">
+          <p>Nome do aluno</p>
+          <Input type="name" placeholder="Nome do aluno" name="name" required />
+        </div>
         <div>
-          <Input type="text" placeholder="Plano" required name="title" />
-          <Input
-            type="date"
-            placeholder="Data de inicio"
-            required
-            name="start_date"
-          />
+          <div>
+            <p>Nome do plano</p>
+            <Input type="text" placeholder="Plano" required name="title" />
+          </div>
+          <div>
+            <p>data de inicio</p>
+            <Input type="date" required name="start_date" />
+          </div>
+          <div className="read-only">
+            <p>data final</p>
+            <Input type="date" required name="start_date" readOnly />
+          </div>
+          <div className="read-only">
+            <p>Valor final</p>
+            <Input type="number" required name="start_date" readOnly />
+          </div>
         </div>
         <button type="submit">Cadastrar</button>
       </Form>

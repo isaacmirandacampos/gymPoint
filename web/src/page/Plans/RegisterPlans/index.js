@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history';
 import api from '../../../services/api';
 
-import { Container } from '../../../styles/register';
+import { Container } from '../../../styles/layoutsDefaults';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Nome obrigatorio'),
@@ -53,43 +53,47 @@ export default function RegisterPlans() {
         </div>
       </header>
       <Form schema={schema} onSubmit={handleRegister}>
-        <Input
-          className="bigInput"
-          type="name"
-          placeholder="Nome do Plano"
-          name="title"
-          required
-        />
+        <div className="big">
+          <p>Nome do plano</p>
+          <Input type="name" name="title" required />
+        </div>
         <div>
-          <Input
-            type="number"
-            placeholder="Duracao do plano"
-            required
-            name="duration"
-            min={0}
-            onChange={e => setDuration(e.target.value)}
-            value={duration}
-          />
-          <Input
-            type="number"
-            step=".01"
-            min={0}
-            defaultValue={0}
-            placeholder="Preco do plano"
-            required
-            name="price"
-            value={price}
-            onChange={e => setPrice(e.target.value)}
-          />
-          <Input
-            type="number"
-            step=".01"
-            placeholder="Preco Total"
-            required
-            readOnly
-            name="priceTotal"
-            value={totalPrice === 0 ? null : totalPrice}
-          />
+          <div>
+            <p>Duraçāo do plano</p>
+            <Input
+              type="number"
+              required
+              name="duration"
+              min={0}
+              onChange={e => setDuration(e.target.value)}
+              value={duration}
+            />
+          </div>
+          <div>
+            <p>Preco plano</p>
+            <Input
+              type="number"
+              step=".01"
+              min={0}
+              defaultValue={0}
+              required
+              name="price"
+              value={price}
+              onChange={e => setPrice(e.target.value)}
+            />
+          </div>
+
+          <div className="read-only">
+            <p>Preco total</p>
+            <Input
+              type="number"
+              step=".01"
+              required
+              readOnly
+              name="priceTotal"
+              value={totalPrice}
+            />
+          </div>
         </div>
         <button type="submit">Cadastrar</button>
       </Form>
