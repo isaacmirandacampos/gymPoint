@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Select } from '@rocketseat/unform';
 
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -16,6 +16,9 @@ const schema = Yup.object().shape({
 });
 
 export default function RegisterPlans() {
+  const [students, setStudents] = useState();
+  const [plans, setPlans] = useState();
+
   async function handleRegister({ name, title, start_date }) {
     try {
       await api.post('enrollments', {
@@ -30,10 +33,30 @@ export default function RegisterPlans() {
     }
   }
 
+  useEffect(() => {
+    async function getStudents() {
+      const response = await api.get('enrollments/3');
+      const { students } = response.data;
+      const arrayStudents = students.map(student => {
+        const title = student.name;
+        const { id } = student;
+        return (student = { id, title });
+      });
+      setStudents(arrayStudents);
+    }
+    async function getPlans() {
+      const response = await api.get('plans');
+      const { Plans } = response.data;
+      setPlans(Plans);
+    }
+    getStudents();
+    getPlans();
+  }, []);
+
   function handleBack() {
     history.push('/enrollments');
   }
-
+  console.tron.log(students);
   return (
     <Container>
       <header>
@@ -44,21 +67,15 @@ export default function RegisterPlans() {
           </button>
         </div>
       </header>
-      <Form schema={schema} onSubmit={handleRegister}>
+      <Form onSubmit={handleRegister}>
         <div className="big">
           <p>Nome do aluno</p>
-          <Input
-            type="name"
-            autoFocus
-            placeholder="Nome do aluno"
-            name="name"
-            required
-          />
+          <input name="name" options={students} />
         </div>
         <div>
           <div>
             <p>Nome do plano</p>
-            <Input type="text" placeholder="Plano" required name="title" />
+            <input name="title" options={plans} />
           </div>
           <div>
             <p>data de inicio</p>
@@ -66,11 +83,11 @@ export default function RegisterPlans() {
           </div>
           <div className="read-only">
             <p>data final</p>
-            <Input type="date" required name="start_date" readOnly />
+            <Input type="date" required name="final_date" readOnly />
           </div>
           <div className="read-only">
-            <p>Valor final</p>
-            <Input type="number" required name="start_date" readOnly />
+            <p>Valor total</p>
+            <Input type="number" required name="total_price" readOnly />
           </div>
         </div>
         <button type="submit">Cadastrar</button>

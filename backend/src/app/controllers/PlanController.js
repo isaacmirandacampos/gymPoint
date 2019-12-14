@@ -1,5 +1,5 @@
-import Plan from '../models/Plan';
 import * as Yup from 'yup';
+import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
@@ -11,13 +11,12 @@ class PlanController {
         order: ['price'],
       });
       return res.json({ plan });
-    } else {
-      const Plans = await Plan.findAll({
-        attributes: ['id', 'title', 'duration', 'price'],
-        order: ['price'],
-      });
-      return res.json({ Plans });
     }
+    const Plans = await Plan.findAll({
+      attributes: ['id', 'title', 'duration', 'price'],
+      order: ['price'],
+    });
+    return res.json({ Plans });
   }
 
   async store(req, res) {

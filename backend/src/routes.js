@@ -43,6 +43,7 @@ routes.put('/users', UserController.update);
 
 routes.post('/enrollments', EnrollmentController.store);
 routes.get('/enrollments', EnrollmentController.index);
+routes.get('/enrollments/:enrollmentId', EnrollmentController.index);
 routes.put('/enrollments/:enrollmentId', EnrollmentController.update);
 routes.delete('/enrollments/:enrollmentId', EnrollmentController.delete);
 

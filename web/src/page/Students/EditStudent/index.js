@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import { useParams } from 'react-router-dom';
 
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -21,22 +21,17 @@ const schema = Yup.object().shape({
 });
 
 export default function EditStudent() {
-  const { id } = useParams();
-
-  const [student, setStudent] = useState({});
-
-  useEffect(() => {
-    async function getStudent() {
-      const response = await api.get(`students/${id}`);
-      const { student } = response.data;
-      setStudent(student);
-    }
-    getStudent();
-  }, []);
+  const student = useSelector(state => state.student.payload);
 
   async function handleEdit({ name, email, idade, peso, altura }) {
     try {
-      await api.put(`students/${id}`, { name, email, idade, peso, altura });
+      await api.put(`students/${student.id}`, {
+        name,
+        email,
+        idade,
+        peso,
+        altura,
+      });
       toast.success('Alterado com sucesso');
       history.push('/students');
     } catch (err) {

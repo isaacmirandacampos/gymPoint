@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { toast } from 'react-toastify';
 import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
-import { toast } from 'react-toastify';
+import { loadEditStudent } from '../../store/modules/student/actions';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
   const [idDelete, setIdDelete] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function handleStudent() {
@@ -19,11 +22,11 @@ export default function Students() {
   }, [idDelete]);
 
   function handleRegisterStudent() {
-    history.push('/student-register');
+    history.push('/students/register');
   }
 
-  function handleEdit(id) {
-    history.push(`/student-edit/${id}`);
+  function handleEdit(student) {
+    dispatch(loadEditStudent(student));
   }
 
   async function handleDelete(id) {
@@ -59,7 +62,7 @@ export default function Students() {
                 <td>{student.email}</td>
                 <td>{student.idade}</td>
                 <td>
-                  <button onClick={() => handleEdit(student.id)}>editar</button>
+                  <button onClick={() => handleEdit(student)}>editar</button>
                   <button onClick={() => handleDelete(student.id)}>
                     apagar
                   </button>

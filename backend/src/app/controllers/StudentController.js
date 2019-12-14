@@ -9,10 +9,9 @@ class StudentController {
     if (studentId) {
       const student = await Student.findOne({ where: { id: studentId } });
       return res.json({ student });
-    } else {
-      const Students = await Student.findAll();
-      return res.json({ Students });
     }
+    const Students = await Student.findAll();
+    return res.json({ Students });
   }
 
   async store(req, res) {

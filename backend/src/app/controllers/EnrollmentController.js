@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { parseISO, startOfHour, isBefore, addMonths, format } from 'date-fns';
+import { isBefore, addMonths, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
@@ -12,6 +12,38 @@ import Queue from '../../lib/Queue';
 
 class EnrollmentController {
   async index(req, res) {
+    if (req.params.enrollmentId) {
+      const Enrollments = await Enrollment.findAll({
+        attributes: ['id', 'start_date', 'end_date', 'price'],
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['id', 'title', 'price', 'duration', 'createdAt'],
+          },
+        ],
+      });
+      const Students = await Student.findAll({ attributes: ['id', 'name'] });
+
+      const array = [];
+      let i;
+      for (i = 0; i < Students.length; i++) {
+        if (!Enrollments.find(e => e.student.id === Students[i].id)) {
+          array[i] = Students[i];
+        }
+      }
+      function isNull(value) {
+        return value !== null;
+      }
+      const students = array.filter(isNull);
+
+      return res.json({ students });
+    }
     const { page = 1 } = req.query;
     const Enrollments = await Enrollment.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price'],
@@ -110,12 +142,12 @@ class EnrollmentController {
     const schema = Yup.object().shape({
       student_id: Yup.number(),
       plan_id: Yup.number(),
+      start_date: Yup.date(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'filds invalid' });
     }
-
     const enrollment = await Enrollment.findOne({
       where: { id: req.params.enrollmentId },
       attributes: ['id', 'start_date'],
@@ -123,24 +155,29 @@ class EnrollmentController {
         { model: Student, as: 'student', attributes: ['id', 'name', 'email'] },
       ],
     });
-
     if (!enrollment) {
       return res
         .status(400)
         .json({ error: 'Enrollment not exist for alteration' });
     }
 
-    const { price, duration } = await Plan.findOne({
+    const plan = await Plan.findOne({
       where: { id: req.body.plan_id },
     });
 
+    if (!plan) {
+      return res.status(401).json({ error: 'Plan not exist' });
+    }
+    const { price, duration } = plan;
+
     req.body.price = price * duration;
 
-    req.body.end_date = addMonths(enrollment.start_date, duration);
+    const { start_date } = req.body;
 
+    req.body.end_date = addMonths(new Date(start_date), duration);
     await enrollment.update(req.body);
 
-    return res.json({ enrollment });
+    return res.json({ ok: 'Update Success' });
   }
 
   async delete(req, res) {

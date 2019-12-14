@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { parseISO, format, isBefore } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { MdCheckCircle } from 'react-icons/md';
 
+import { toast } from 'react-toastify';
 import history from '../../services/history';
 import api from '../../services/api';
+import { loadEditEnrollment } from '../../store/modules/enrollment/actions';
 import { Container, ScrollTable } from './styles';
-import { toast } from 'react-toastify';
 
 export default function Enrollments() {
   const [enrollments, setEnrollments] = useState([]);
   const [idDelete, setIdDelete] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function handleState() {
@@ -37,7 +40,11 @@ export default function Enrollments() {
   }, [idDelete]);
 
   function handleRegister() {
-    history.push('/enrollments-register');
+    history.push('/enrollments/register');
+  }
+
+  function handleEdit(enrollment) {
+    dispatch(loadEditEnrollment(enrollment));
   }
 
   async function handleDelete(id) {
@@ -81,7 +88,7 @@ export default function Enrollments() {
                   )}
                 </td>
                 <td>
-                  <button>editar</button>
+                  <button onClick={() => handleEdit(enrollment)}>editar</button>
                   <button onClick={() => handleDelete(enrollment.id)}>
                     apagar
                   </button>

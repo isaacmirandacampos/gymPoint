@@ -22,7 +22,8 @@ export const Container = styled.div`
         font-weight: bold;
         color: #333;
       }
-      input {
+      input,
+      select {
         height: 50px;
         padding: 10px;
         font-size: 16px;
@@ -51,7 +52,8 @@ export const Container = styled.div`
           color: #333;
         }
 
-        input {
+        input,
+        select {
           padding: 10px 0 10px 5px;
           height: 50px;
           font-size: 16px;

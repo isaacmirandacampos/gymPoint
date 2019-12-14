@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { toast } from 'react-toastify';
 import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
-import { toast } from 'react-toastify';
+import { loadEditPlan } from '../../store/modules/plan/actions';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
   const [idDelete, setIdDelete] = useState();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function handleState() {
@@ -29,12 +33,15 @@ export default function Plans() {
   }
 
   function handleRegister() {
-    history.push('/plans-register');
+    history.push('/plans/register');
   }
 
-  function handleEdit(id) {
-    history.push(`plans-edit/${id}`);
+  function handleEdit(plan) {
+    dispatch(loadEditPlan(plan));
   }
+
+  const i = plans.find(p => p.id > 1);
+  console.tron.log(i);
 
   return (
     <Container>
@@ -58,7 +65,7 @@ export default function Plans() {
                 <td>{plan.duration}</td>
                 <td>{plan.price}</td>
                 <td>
-                  <button onClick={() => handleEdit(plan.id)}>editar</button>
+                  <button onClick={() => handleEdit(plan)}>editar</button>
                   <button onClick={() => handleDelete(plan.id)}>apagar</button>
                 </td>
               </tr>

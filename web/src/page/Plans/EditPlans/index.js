@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import { useParams } from 'react-router-dom';
 
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -17,48 +17,26 @@ const schema = Yup.object().shape({
 });
 
 export default function EditStudent() {
-  const { id } = useParams();
-
-  const [plan, setPlan] = useState({});
-  const [duration, setDuration] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState();
-
-  useEffect(() => {
-    setTotalPrice(duration * price);
-  }, [duration, price]);
-
-  useEffect(() => {
-    async function getPlan() {
-      const response = await api.get(`plans/${id}`);
-      const { plan } = response.data;
-      setPlan(plan);
-      setDuration(plan.duration);
-      setPrice(plan.price);
-    }
-    getPlan();
-  }, []);
+  const plan = useSelector((state) => state.plan.payload);
 
   async function handleEdit({ title, duration, price }) {
     try {
-      await api.put(`plans/${id}`, { title, duration, price });
+      await api.put(`plans/${plan.id}`, { title, duration, price });
       toast.success('Alterado com sucesso');
       history.push('/plans');
     } catch (err) {
       toast.error('Falha na alteraçāo, tente novamente');
     }
   }
-
   function handleBack() {
     history.push('/plans');
   }
-  console.tron.log(id);
   return (
     <Container>
       <header>
         <h2>Editando alunos</h2>
         <div>
-          <button onClick={handleBack} id="back">
+          <button id="back" onClick={handleBack}>
             Voltar
           </button>
         </div>
@@ -71,29 +49,17 @@ export default function EditStudent() {
         <div>
           <div>
             <p>duraçāo</p>
-            <Input
-              type="number"
-              name="duration"
-              onChange={e => setDuration(e.target.value)}
-              value={duration}
-            />
+            <Input type="number" name="duration" />
           </div>
           <div>
             <p>Preço mensal</p>
-            <Input
-              type="number"
-              onChange={e => setPrice(e.target.value)}
-              value={price}
-              step=".01"
-              name="price"
-            />
+            <Input type="number" step=".01" name="price" />
           </div>
           <div className="read-only">
             <p>preço total</p>
             <Input
               type="number"
-              placeholder={plan.price * plan.duration}
-              value={totalPrice === 0 ? null : totalPrice}
+              value={plan.price * plan.duration}
               readOnly
               name="totalPrice"
             />

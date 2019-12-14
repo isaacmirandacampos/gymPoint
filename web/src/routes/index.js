@@ -15,6 +15,8 @@ import EditPlans from '../page/Plans/EditPlans';
 
 import Enrollments from '../page/Enrollments';
 import RegisterEnrollments from '../page/Enrollments/RegisterEnrollments';
+import EditEnrollments from '../page/Enrollments/EditEnrollments';
+
 import HelpOrders from '../page/HelpOrders';
 
 export default function Routes() {
@@ -23,18 +25,23 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/register" component={SignUp} />
 
-      <Route path="/students" component={Students} isPrivate />
-      <Route path="/student-register" component={RegisterStudent} isPrivate />
-      <Route path="/student-edit/:id" component={EditStudent} isPrivate />
+      <Route path="/students" exact component={Students} isPrivate />
+      <Route path="/students/register" component={RegisterStudent} isPrivate />
+      <Route path="/students/edit/:id" component={EditStudent} isPrivate />
 
-      <Route path="/plans" component={Plans} isPrivate />
-      <Route path="/plans-register" component={RegisterPlans} isPrivate />
-      <Route path="/plans-edit/:id" component={EditPlans} isPrivate />
+      <Route path="/plans" exact component={Plans} isPrivate />
+      <Route path="/plans/register" component={RegisterPlans} isPrivate />
+      <Route path="/plans/edit/:id" component={EditPlans} isPrivate />
 
-      <Route path="/enrollments" component={Enrollments} isPrivate />
+      <Route path="/enrollments" exact component={Enrollments} isPrivate />
       <Route
-        path="/enrollments-register"
+        path="/enrollments/register"
         component={RegisterEnrollments}
+        isPrivate
+      />
+      <Route
+        path="/enrollments/edit/:id"
+        component={EditEnrollments}
         isPrivate
       />
 
