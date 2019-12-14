@@ -10,7 +10,7 @@ export default function HelpOrders() {
 
   useEffect(() => {
     async function handleHelpOrders() {
-      const response = await api.get('students/help-orders');
+      const response = await api.get('students/help-orders/all');
       const { helpOrders } = response.data;
       console.tron.log(response);
       setHelpOrders(helpOrders);
@@ -31,7 +31,7 @@ export default function HelpOrders() {
             </tr>
             {helpOrders.map(help => (
               <tr key={help.id}>
-                <td>{help.student.name}</td>
+                <td>{help.students.name}</td>
                 <td>
                   <button>responder</button>
                 </td>

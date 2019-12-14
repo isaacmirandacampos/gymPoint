@@ -13,7 +13,7 @@ class HelpOrdersController {
       include: [
         {
           model: Student,
-          as: 'student',
+          as: 'students',
           attributes: ['id', 'name', 'email'],
         },
       ],
@@ -63,7 +63,7 @@ class HelpOrdersController {
     });
 
     if (!(await idAnswer.isValid(req.params))) {
-      return res.status(400).json({ error: 'error with student ID' });
+      return res.status(400).json({ error: 'invalid params' });
     }
 
     const schemaQuestion = Yup.object().shape({
@@ -71,13 +71,13 @@ class HelpOrdersController {
     });
 
     if (!(await schemaQuestion.isValid(req.body))) {
-      return res.status(400).json({ error: 'error with answer' });
+      return res.status(400).json({ error: 'invalid answer' });
     }
     const id = req.params.id_answer;
     const question = await HelpOrders.findOne({
       where: { id, answer: null },
       include: [
-        { model: Student, as: 'helpOrders', attributes: ['name', 'email'] },
+        { model: Student, as: 'students', attributes: ['name', 'email'] },
       ],
     });
 
