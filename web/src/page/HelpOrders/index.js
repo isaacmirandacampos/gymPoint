@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
-import history from '../../services/history';
+import Modal from './Answer';
+
 import api from '../../services/api';
-import { Container, ScrollTable } from './styles';
-import { toast } from 'react-toastify';
+import { responseHelpOrders } from '../../store/modules/helpOrders/actions';
+import { Container, ScrollTable, Response } from './styles';
 
 export default function HelpOrders() {
   const [helpOrders, setHelpOrders] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function handleHelpOrders() {
       const response = await api.get('students/help-orders/all');
-      const { helpOrders } = response.data;
-      console.tron.log(response);
-      setHelpOrders(helpOrders);
+      const help = response.data.helpOrders;
+
+      setHelpOrders(help);
     }
     handleHelpOrders();
   }, []);
+
+  function handleShow({ id, students, question }) {
+    dispatch(responseHelpOrders(id, students, question));
+  }
 
   return (
     <Container>
@@ -30,12 +38,19 @@ export default function HelpOrders() {
               <th>Aluno</th>
             </tr>
             {helpOrders.map(help => (
-              <tr key={help.id}>
-                <td>{help.students.name}</td>
-                <td>
-                  <button>responder</button>
-                </td>
-              </tr>
+              <>
+                <tr key={help.id}>
+                  <td>{help.students.name}</td>
+                  <td>
+                    <Button onClick={() => handleShow(help)}>responder</Button>
+                  </td>
+                </tr>
+                <div key={help.students.id}>
+                  <Response>
+                    <Modal />
+                  </Response>
+                </div>
+              </>
             ))}
           </tbody>
         </table>

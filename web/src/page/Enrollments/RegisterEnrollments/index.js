@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from '@rocketseat/unform';
+import { addMonths, parseISO, getDate, getMonth, getYear } from 'date-fns';
 
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -16,22 +17,34 @@ const schema = Yup.object().shape({
 });
 
 export default function RegisterPlans() {
-  const [students, setStudents] = useState();
-  const [plans, setPlans] = useState();
+  const [students, setStudents] = useState([]);
+  const [plans, setPlans] = useState([]);
+  const [idPlan, setIdPlan] = useState();
+  const [idStudent, setIdStudent] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState('dd/mm/yyyy');
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  async function handleRegister({ name, title, start_date }) {
-    try {
-      await api.post('enrollments', {
-        name,
-        title,
-        start_date,
-      });
-      toast.success('Matricula do cadastrado com sucesso');
-      history.push('/enrollments');
-    } catch (err) {
-      toast.error('Falha no cadastramento da matricula, tente novamente');
+  useEffect(() => {
+    const i = plans.findIndex(plan => plan.id == idPlan);
+    const durationChoose = plans.map(p => {
+      if (p.id == idPlan) return p.duration;
+    });
+    const priceChoose = plans.map(p => {
+      if (p.id == idPlan) return p.price;
+    });
+
+    const finalPrice = priceChoose[i] * durationChoose[i];
+
+    setTotalPrice(finalPrice);
+    const finalDate = addMonths(parseISO(startDate), durationChoose[i]);
+    if (durationChoose && startDate) {
+      const day = getDate(finalDate);
+      const month = getMonth(finalDate);
+      const year = getYear(finalDate);
+      setEndDate(`${day}/${month + 1}/${year}`);
     }
-  }
+  }, [startDate, idPlan, plans]);
 
   useEffect(() => {
     async function getStudents() {
@@ -53,10 +66,25 @@ export default function RegisterPlans() {
     getPlans();
   }, []);
 
+  async function handleRegister({ student_id, plan_id, start_date }) {
+    try {
+      console.tron.log();
+      await api.post('enrollments', {
+        student_id,
+        plan_id,
+        start_date,
+      });
+      toast.success('Matricula do cadastrado com sucesso');
+      history.push('/enrollments');
+    } catch (err) {
+      toast.error('Falha no cadastramento da matricula, tente novamente');
+    }
+  }
+
   function handleBack() {
     history.push('/enrollments');
   }
-  console.tron.log(students);
+
   return (
     <Container>
       <header>
@@ -70,24 +98,49 @@ export default function RegisterPlans() {
       <Form onSubmit={handleRegister}>
         <div className="big">
           <p>Nome do aluno</p>
-          <input name="name" options={students} />
+          <Select
+            name="student_id"
+            onChange={e => setIdStudent(e.target.value)}
+            options={students}
+          />
         </div>
         <div>
           <div>
             <p>Nome do plano</p>
-            <input name="title" options={plans} />
+            <Select
+              name="plan_id"
+              onChange={e => setIdPlan(e.target.value)}
+              options={plans}
+            />
           </div>
           <div>
             <p>data de inicio</p>
-            <Input type="date" required name="start_date" />
+            <Input
+              type="date"
+              onChange={e => setStartDate(e.target.value)}
+              required
+              name="start_date"
+            />
           </div>
           <div className="read-only">
             <p>data final</p>
-            <Input type="date" required name="final_date" readOnly />
+            <Input
+              type="text"
+              value={endDate == 'NaN/NaN/NaN' ? 'dd/mm/yyyy' : endDate}
+              required
+              name="final_date"
+              readOnly
+            />
           </div>
           <div className="read-only">
             <p>Valor total</p>
-            <Input type="number" required name="total_price" readOnly />
+            <Input
+              type="text"
+              value={totalPrice}
+              required
+              name="total_price"
+              readOnly
+            />
           </div>
         </div>
         <button type="submit">Cadastrar</button>

@@ -68,17 +68,17 @@ class EnrollmentController {
 
   async store(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      title: Yup.string().required(),
+      student_id: Yup.number().required(),
+      plan_id: Yup.number().required(),
       start_date: Yup.date().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'incomplete fields' });
     }
-    const { name } = req.body;
+    const { student_id } = req.body;
     const student = await Student.findOne({
-      where: { name },
+      where: { id: student_id },
       attributes: ['id', 'name', 'email'],
     });
 
@@ -86,10 +86,10 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Student not exist' });
     }
 
-    const { title } = req.body;
+    const { plan_id } = req.body;
 
     const plan = await Plan.findOne({
-      where: { title },
+      where: { id: plan_id },
       attributes: ['id', 'title', 'duration', 'price'],
     });
 
