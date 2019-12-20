@@ -5,6 +5,7 @@ import colors from './colors';
 export const Container = styled.div`
   width: 1200px;
   max-width: 90%;
+  height: 80%;
 
   form {
     width: 100%;
