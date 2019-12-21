@@ -14,6 +14,8 @@ export const Logo = styled.Image.attrs({
   source: logo,
 })`
   align-self: center;
+  height: 150px;
+  width: 240px;
 `;
 
 export const InputLogin = styled.TextInput`
