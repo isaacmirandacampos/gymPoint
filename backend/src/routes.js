@@ -16,15 +16,14 @@ const routes = new Router();
 routes.post('/register', UserController.store);
 routes.post('/sessions', SessionController.store);
 routes.get('/students/:studentId', StudentController.index);
+routes.get('/students/:student_id/checkins', CheckinsController.index);
+routes.post('/students/:student_id/checkins', CheckinsController.store);
 
 routes.use(authMiddleware);
 routes.get('/students', StudentController.index);
 routes.post('/students', StudentController.store);
 routes.put('/students/:studentId', StudentController.update);
 routes.delete('/students/:studentId', StudentController.delete);
-
-routes.get('/students/:student_id/checkins', CheckinsController.index);
-routes.post('/students/:student_id/checkins', CheckinsController.store);
 
 routes.get('/students/help-orders/all', HelpOrdersController.index);
 routes.post('/students/:student_id/help-orders', HelpOrdersController.store);

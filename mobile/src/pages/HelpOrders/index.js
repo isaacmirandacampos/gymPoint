@@ -1,17 +1,12 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Text } from 'react-native';
-import Header from '../../components/Header';
 
 import { Container, Content } from './styles';
 
 export default function HelpOrders() {
   return (
     <Container>
-      <Header />
-      <Content>
-        <Text>Help</Text>
-      </Content>
+      <Content />
     </Container>
   );
 }
@@ -21,5 +16,4 @@ HelpOrders.navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name="live-help" size={20} color={tintColor} />
   ),
-  title: 'checkins',
 };

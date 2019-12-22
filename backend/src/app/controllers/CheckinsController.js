@@ -16,9 +16,9 @@ class CheckinsController {
       return res.status(400).json({ error: 'Invalid ID' });
     }
     const { student_id } = req.params;
-    const { id, name, email } = await Student.findByPk(student_id);
+    const { id } = await Student.findByPk(student_id);
 
-    if (!name) {
+    if (!id) {
       return res.status(400).json({ error: 'User not exist' });
     }
 
@@ -27,7 +27,7 @@ class CheckinsController {
       attributes: ['id', 'createdAt'],
     });
 
-    return res.json({ id, name, email, checkins });
+    return res.json({ checkins });
   }
 
   async store(req, res) {
@@ -67,8 +67,8 @@ class CheckinsController {
     }
 
     const { student_id } = req.params;
-    const nowChecking = await Checkins.create({ student_id });
-    return res.json({ nowChecking, checkinsSevenDays });
+    const checkin = await Checkins.create({ student_id });
+    return res.json({ checkin });
   }
 }
 export default new CheckinsController();

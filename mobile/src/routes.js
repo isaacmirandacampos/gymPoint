@@ -29,11 +29,16 @@ export default (signedIn = false) =>
               style: {
                 backgroundColor: '#ee4e62',
               },
+
+            },
+            defaultNavigationOptions: {
+              header: <Header />,
             },
           }
         ),
       },
-      {
+      { 
+
         initialRouteName: signedIn ? 'App' : 'Sign',
       }
     )
