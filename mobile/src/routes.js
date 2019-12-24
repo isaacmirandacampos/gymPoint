@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Header from './components/Header';
 
 import SignIn from './pages/SignIn';
 
 import Checkins from './pages/Checkins';
-import HelpOrders from './pages/HelpOrders';
+import ViewHelpOrders from './pages/HelpOrders';
+import NewHelpOrders from './pages/HelpOrders/New';
+import DetailsHelpOrders from './pages/HelpOrders/Details';
 
 export default (signedIn = false) =>
   createAppContainer(
@@ -19,10 +22,49 @@ export default (signedIn = false) =>
         }),
         App: createBottomTabNavigator(
           {
-            Checkins,
-            HelpOrders,
+            StudentCheckins: {
+              screen: createStackNavigator({
+                Checkins,
+              },
+              {
+                navigationOptions: {
+                  tabBarLabel: 'Checkins',
+                  tabBarIcon: ({ tintColor }) => (
+                    <Icon name="check-box" size={20} color={tintColor} />
+                  ),
+                },
+                defaultNavigationOptions: {
+                  headerBackground: <Header />,
+                },
+              }
+              )
+            },
+            HelpOrders: {
+              screen: createStackNavigator(
+                {
+                  ViewHelpOrders,
+                  NewHelpOrders,
+                  DetailsHelpOrders,
+                },
+                {
+                  navigationOptions: {
+                    tabBarLabel: 'Pedir ajuda',
+                    tabBarIcon: ({ tintColor }) => (
+                      <Icon name="live-help" size={20} color={tintColor} />
+                    ),
+                  },
+                  defaultNavigationOptions: {
+                    headerBackground: <Header />,
+                    headerBackImage: () => (
+                      <Icon name="chevron-left" size={22} color="#000" />
+                    ),
+                  },
+                }
+              ),
+            },
           },
-          {
+          { 
+            resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,
               activeTintColor: '#fff',
@@ -30,16 +72,14 @@ export default (signedIn = false) =>
               style: {
                 backgroundColor: '#ee4e62',
               },
-
             },
             defaultNavigationOptions: {
-              header: (<View style={{flex: 1}}><Text>Teste</Text></View>),
+              headerBackground: <Header />,
             },
           }
         ),
       },
-      { 
-
+      {
         initialRouteName: signedIn ? 'App' : 'Sign',
       }
     )

@@ -69,7 +69,6 @@ export default function Checkins() {
 
   return (
     <Container>
-      <Header />
       <Content>
         <SubmitButton onPress={handleCheckin}>
           <TextButton>Novo check-in</TextButton>
@@ -84,9 +83,4 @@ export default function Checkins() {
   );
 }
 
-Checkins.navigationOptions = {
-  tabBarLabel: 'Check-ins',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="check-box" size={20} color={tintColor} />
-  ),
-};
+

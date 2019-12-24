@@ -72,7 +72,6 @@ export default function HelpOrders() {
 
   return (
     <Container>
-      <Header />
       <Content>
         <SubmitButton>
           <TextButton onPress={handleAddHelpOrders}>Novo check-in</TextButton>
@@ -86,10 +85,3 @@ export default function HelpOrders() {
     </Container>
   );
 }
-
-HelpOrders.navigationOptions = {
-  tabBarLabel: 'Pedir ajuda',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="live-help" size={20} color={tintColor} />
-  ),
-};
