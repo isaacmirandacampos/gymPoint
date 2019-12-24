@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import Button from '../../components/Button';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   height: 100%;
   background: #f5f5f5;
 `;

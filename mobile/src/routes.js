@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, Text } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
@@ -32,7 +33,7 @@ export default (signedIn = false) =>
 
             },
             defaultNavigationOptions: {
-              header: <Header />,
+              header: (<View style={{flex: 1}}><Text>Teste</Text></View>),
             },
           }
         ),

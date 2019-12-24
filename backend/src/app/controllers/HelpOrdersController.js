@@ -7,16 +7,9 @@ import Queue from '../../lib/Queue';
 
 class HelpOrdersController {
   async index(req, res) {
+    const student_id = req.params.studentId;
     const helpOrders = await HelpOrders.findAll({
-      where: { answer: null },
-      attributes: ['id', 'question'],
-      include: [
-        {
-          model: Student,
-          as: 'students',
-          attributes: ['id', 'name', 'email'],
-        },
-      ],
+      where: { student_id },
     });
     return res.json({ helpOrders });
   }
