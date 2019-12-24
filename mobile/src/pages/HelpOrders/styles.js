@@ -44,6 +44,13 @@ export const HeaderQuestion = styled.View`
 export const Answer = styled.Text`
   font-weight: bold;
   font-size: 20px;
+  margin-left: 5px;
+  color: ${props => (props.answer ? '#66dd66' : '#999')};
+`;
+
+export const Check = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const DateText = styled.Text`

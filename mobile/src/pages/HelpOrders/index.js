@@ -13,6 +13,7 @@ import {
   SubmitButton,
   TextButton,
   ViewQuestion,
+  Check,
   Answer,
   DateText,
   Question,
@@ -47,7 +48,18 @@ export default function HelpOrders() {
     return (
       <ViewQuestion>
         <HeaderQuestion>
-          <Answer>Sem resposta</Answer>
+          {item.answer ? (
+            <Check>
+              <Icon name="check-circle" size={20} color="#66dd66" />
+              <Answer answer={item.answer}>Respondida</Answer>
+            </Check>
+          ) : (
+            <Check>
+              <Icon name="check-circle" size={20} color="#999" />
+              <Answer>Sem resposta</Answer>
+            </Check>
+          )}
+
           <DateText>{item.formattedDate}</DateText>
         </HeaderQuestion>
 
