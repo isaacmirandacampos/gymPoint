@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../components/Button';
-import { Container, Content, Logo, InputLogin } from './styles';
+import {
+  Container,
+  Content,
+  Logo,
+  InputLogin,
+  SubmitButton,
+  TextButton,
+} from './styles';
 import { signInRequest } from '../../store/modules/auth/actions';
 
 export default function SignIn() {
@@ -25,9 +31,9 @@ export default function SignIn() {
           value={id}
           onChangeText={setId}
         />
-        <Button loading={loading} onPress={handleSubmit}>
-          Entrar no sistema
-        </Button>
+        <SubmitButton loading={loading} onPress={handleSubmit}>
+          <TextButton>Entrar no sistema</TextButton>
+        </SubmitButton>
       </Content>
     </Container>
   );

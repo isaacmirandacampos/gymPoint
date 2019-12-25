@@ -27,7 +27,7 @@ export const TextButton = styled.Text`
   font-size: 16px;
 `;
 
-export const ViewQuestion = styled.View`
+export const ButtonQuestion = styled.TouchableOpacity`
   padding: 10px 20px;
   border-radius: 7px;
   border: 1px solid #eee;

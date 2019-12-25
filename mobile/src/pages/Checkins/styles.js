@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Button from '../../components/Button';
 
 export const Container = styled.View`
   height: 100%;
@@ -28,7 +27,9 @@ export const TextButton = styled.Text`
   font-size: 16px;
 `;
 
-export const ColumnCheckins = styled.FlatList.attrs({})`
+export const ColumnCheckins = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})`
   margin-top: 10px;
 `;
 
@@ -39,17 +40,20 @@ export const Checkin = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 15px;
   height: 54px;
   border-radius: 8px;
 `;
-export const Qtd = styled.Text`
+export const Qtd = styled.Text.attrs({
+  numberOfLines: 2,
+})`
   font-size: 16px;
   font-weight: bold;
   color: #333;
+  margin-right: 15px;
 `;
 
 export const TextDate = styled.Text`
-  font-size: 15px;
+  font-size: 13px;
   color: #666;
 `;

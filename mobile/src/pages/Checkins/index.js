@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Text, TouchableOpacity } from 'react-native';
+import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../components/Header';
 
 import api from '../../services/api';
 

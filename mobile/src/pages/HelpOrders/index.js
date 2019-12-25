@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../components/Header';
+import { withNavigationFocus } from 'react-navigation';
+
 import api from '../../services/api';
 
 import {
@@ -12,7 +13,7 @@ import {
   Content,
   SubmitButton,
   TextButton,
-  ViewQuestion,
+  ButtonQuestion,
   Check,
   Answer,
   DateText,
@@ -20,33 +21,44 @@ import {
   HeaderQuestion,
 } from './styles';
 
-export default function HelpOrders() {
+function HelpOrders({ navigation, isFocused }) {
   const [helpOrders, setHelpOrders] = useState([]);
   const id = useSelector(state => state.user.profile.id);
+  console.tron.log(isFocused);
+
+  async function loadQuestion() {
+    const response = await api.get(`students/help-orders/${id}/all`);
+
+    const array = await response.data.helpOrders.map(help => {
+      help.formattedDate = formatRelative(
+        parseISO(help.createdAt),
+        new Date(),
+        { locale: pt }
+      );
+      return help;
+    });
+
+    setHelpOrders(array);
+  }
+
 
   useEffect(() => {
-    async function loadQuestion() {
-      const response = await api.get(`students/help-orders/${id}/all`);
-
-      const array = await response.data.helpOrders.map(help => {
-        help.formattedDate = formatRelative(
-          parseISO(help.createdAt),
-          new Date(),
-          { locale: pt }
-        );
-        return help;
-      });
-
-      setHelpOrders(array);
+    if (isFocused) {
+      loadQuestion();
     }
-    loadQuestion();
-  }, [id]);
+  }, [isFocused]);
 
-  function handleAddHelpOrders() {}
+  function handleAddHelpOrders() {
+    navigation.navigate('NewHelpOrders');
+  }
+
+  function handleDetails(item) {
+    navigation.navigate('DetailsHelpOrders', { item });
+  }
 
   function renderHelpOrders({ item }) {
     return (
-      <ViewQuestion>
+      <ButtonQuestion onPress={() => handleDetails(item)}>
         <HeaderQuestion>
           {item.answer ? (
             <Check>
@@ -64,24 +76,25 @@ export default function HelpOrders() {
         </HeaderQuestion>
 
         <Question>{item.question}</Question>
-      </ViewQuestion>
+      </ButtonQuestion>
     );
   }
-
-  console.tron.log(helpOrders);
 
   return (
     <Container>
       <Content>
-        <SubmitButton>
-          <TextButton onPress={handleAddHelpOrders}>Novo check-in</TextButton>
+        <SubmitButton onPress={handleAddHelpOrders}>
+          <TextButton>Solicitar auxílio</TextButton>
         </SubmitButton>
         <FlatList
           data={helpOrders}
           renderItem={renderHelpOrders}
           keyExtractor={item => String(item.id)}
+          showsVerticalScrollIndicator={false}
         />
       </Content>
     </Container>
   );
 }
+
+export default withNavigationFocus(HelpOrders);

@@ -23,21 +23,22 @@ export default (signedIn = false) =>
         App: createBottomTabNavigator(
           {
             StudentCheckins: {
-              screen: createStackNavigator({
-                Checkins,
-              },
-              {
-                navigationOptions: {
-                  tabBarLabel: 'Checkins',
-                  tabBarIcon: ({ tintColor }) => (
-                    <Icon name="check-box" size={20} color={tintColor} />
-                  ),
+              screen: createStackNavigator(
+                {
+                  Checkins,
                 },
-                defaultNavigationOptions: {
-                  headerBackground: <Header />,
-                },
-              }
-              )
+                {
+                  navigationOptions: {
+                    tabBarLabel: 'Checkins',
+                    tabBarIcon: ({ tintColor }) => (
+                      <Icon name="check-box" size={20} color={tintColor} />
+                    ),
+                  },
+                  defaultNavigationOptions: {
+                    headerBackground: <Header />,
+                  },
+                }
+              ),
             },
             HelpOrders: {
               screen: createStackNavigator(
@@ -58,12 +59,14 @@ export default (signedIn = false) =>
                     headerBackImage: () => (
                       <Icon name="chevron-left" size={22} color="#000" />
                     ),
+                    headerBackTitle: null,
                   },
+                  initialRouteName: 'ViewHelpOrders',
                 }
               ),
             },
           },
-          { 
+          {
             resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,
