@@ -28,7 +28,7 @@ export default function Plans() {
       setIdDelete(id);
       toast.success('Deletedo com sucesso');
     } catch (err) {
-      toast.error('Algo deu errado, tente novamente');
+      toast.error('Possui estudantes matriculados com plano');
     }
   }
 

@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import Student from '../models/Student';
+import Enrollment from '../models/Enrollment';
 
 class StudentController {
   async index(req, res) {
@@ -90,7 +91,12 @@ class StudentController {
     if (!student) {
       return res.status(400).json({ error: 'Student not exist' });
     }
-    await student.destroy();
+    const enrollment = Enrollment.findOne({ where: { student_id: id } });
+    if (!enrollment) {
+      return res.status(400).json({ error: 'Student is enrolled' });
+    }
+
+    await await student.destroy();
     return res.json({ success: 'Student delete' });
   }
 }

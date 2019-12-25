@@ -67,11 +67,21 @@ class PlanController {
   }
 
   async delete(req, res) {
-    const plan = await Plan.findByPk(req.params.planId);
+    const id = req.params.planId;
+
+    const plan = await Plan.findByPk(id);
 
     if (!plan) {
       return res.status(400).json({ error: 'Plan not exist' });
     }
+
+    const enrollment = Enrollment.findOne({ where: { plan_id: id } });
+    if (!enrollment) {
+      return res
+        .status(400)
+        .json({ error: 'Students is enrolled with this plan' });
+    }
+
     await plan.destroy();
 
     return res.json({ success: 'Plan delete' });

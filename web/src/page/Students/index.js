@@ -35,7 +35,7 @@ export default function Students() {
       toast.success('Estudante deletado com sucesso');
       setIdDelete(id);
     } catch (err) {
-      toast.error('Nao foi possivel deletar');
+      toast.error('Estudante possui uma matricula');
     }
   }
 
