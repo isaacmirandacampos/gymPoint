@@ -24,10 +24,9 @@ import {
 function HelpOrders({ navigation, isFocused }) {
   const [helpOrders, setHelpOrders] = useState([]);
   const id = useSelector(state => state.user.profile.id);
-  console.tron.log(isFocused);
 
   async function loadQuestion() {
-    const response = await api.get(`students/help-orders/${id}/all`);
+    const response = await api.get(`students/help-orders/all/${id}`);
 
     const array = await response.data.helpOrders.map(help => {
       help.formattedDate = formatRelative(
@@ -40,7 +39,6 @@ function HelpOrders({ navigation, isFocused }) {
 
     setHelpOrders(array);
   }
-
 
   useEffect(() => {
     if (isFocused) {

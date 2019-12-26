@@ -15,9 +15,7 @@ export default function HelpOrders() {
   useEffect(() => {
     async function handleHelpOrders() {
       const response = await api.get('students/help-orders/all');
-      const help = response.data.helpOrders;
-
-      setHelpOrders(help);
+      setHelpOrders(response.data.helpOrders);
     }
     handleHelpOrders();
   }, []);

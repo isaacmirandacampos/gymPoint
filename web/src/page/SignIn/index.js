@@ -18,7 +18,8 @@ const schema = Yup.object().shape({
 export default function SignIn() {
   const dispatch = useDispatch();
 
-  async function handleSubmit({ email, password }) {
+  async function handleSubmit({ email, password }, { resetForm }) {
+    resetForm();
     dispatch(signInRequest(email, password));
   }
 

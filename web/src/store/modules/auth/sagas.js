@@ -30,11 +30,16 @@ export function* signUp({ payload }) {
   try {
     const { name, email, password } = payload;
 
-    yield call(api.post, 'register', { name, email, password });
+    yield call(api.post, 'register', {
+      name,
+      email,
+      password,
+    });
+
     toast.success('Usuario cadastrado');
     history.push('/');
   } catch (e) {
-    toast.error('E-mail ja cadastrado');
+    return toast.error('E-mail já cadastrado');
   }
 }
 export function setToken({ payload }) {

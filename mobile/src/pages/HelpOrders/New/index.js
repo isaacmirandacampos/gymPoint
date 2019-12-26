@@ -12,10 +12,10 @@ export default function New({ navigation }) {
   async function insertHelpOrder() {
     try {
       await api.post(`students/${id}/help-orders`, { question });
-      Alert.alert('Pergunta enviada com sucesso.');
+      Alert.alert('Sucesso', 'Pergunta enviada');
       navigation.navigate('ViewHelpOrders', { question });
     } catch (err) {
-      Alert.alert('Ocorreu algum erro, tente novamente');
+      Alert.alert('Falha', 'Ocorreu algum erro, tente novamente');
     }
   }
 

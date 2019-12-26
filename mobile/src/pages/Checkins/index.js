@@ -37,10 +37,10 @@ export default function Checkins() {
           );
           return checkin;
         });
-  
+
         setCheckins(newArray);
       }
-      }
+    }
 
     loadCheckins();
   }, [id, newCheckins]);
@@ -58,11 +58,13 @@ export default function Checkins() {
     try {
       const response = await api.post(`students/${id}/checkins`);
       setNewCheckins(response.data);
-      return Alert.alert('Check-in registrado com sucesso');
+      return Alert.alert('Sucesso', 'Check-in registrado com sucesso');
     } catch (err) {
-      return Alert.alert('Máximo de check-ins atingidos na semana');
+      return Alert.alert(
+        'Falha na tentativa',
+        'O máximo de check-ins atingidos na semana'
+      );
     }
-
   }
 
   return (
@@ -80,5 +82,3 @@ export default function Checkins() {
     </Container>
   );
 }
-
-
