@@ -1,5 +1,7 @@
 <p align="center" >
   <img src="https://github.com/isaacmirandacampos/gympoint/blob/master/.github/gympoint.png" width="250" >
+  <br />
+  <h2>Desafio de conclusão de curso da Rocketseat</h2>
 </p>
 
 ## instalação
