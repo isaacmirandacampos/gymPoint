@@ -1,10 +1,10 @@
 import Bee from 'bee-queue';
-import CancellationMail from '../app/jobs/CancellationMail';
-import EnrollmentMail from '../app/jobs/EnrollmentMail';
-import HelpOrdersMail from '../app/jobs/HelpOrdersMail';
+import RegistrationMail from '../app/jobs/EnrollmentMail';
+import AnswerMail from '../app/jobs/AnswerMail';
 import redisConfig from '../config/redis';
 
-const jobs = [CancellationMail, EnrollmentMail, HelpOrdersMail];
+const jobs = [RegistrationMail, AnswerMail];
+
 class Queue {
   constructor() {
     this.queues = {};
@@ -30,6 +30,7 @@ class Queue {
   processQueue() {
     jobs.forEach(job => {
       const { bee, handle } = this.queues[job.key];
+
       bee.process(handle);
     });
   }

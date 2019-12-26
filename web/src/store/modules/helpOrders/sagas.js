@@ -6,12 +6,10 @@ import { closeModal } from './actions';
 
 export function* responseHelpOrders({ payload }) {
   try {
-    console.tron.log(payload);
-
     const { id, answer } = payload;
     yield call(api.put, `/students/help-orders/${id}/answer`, { answer });
     toast.success('Resposta enviada');
-    yield put(closeModal());
+    yield put(closeModal(answer));
   } catch (err) {
     toast.error('Falha no envio da respostas, tente novamente');
   }

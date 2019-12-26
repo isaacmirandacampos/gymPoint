@@ -15,8 +15,7 @@ export default function Students() {
   useEffect(() => {
     async function handleStudent() {
       const response = await api.get('students');
-      const { Students } = response.data;
-      setStudents(Students);
+      setStudents(response.data.students);
     }
     handleStudent();
   }, [idDelete]);

@@ -1,51 +1,29 @@
 import * as Yup from 'yup';
-import { isBefore, addMonths, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { isBefore, addMonths } from 'date-fns';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
 import Plan from '../models/Plan';
 import Notification from '../schemas/Notification';
 
 import EnrollmentMail from '../jobs/EnrollmentMail';
-import CancellationMail from '../jobs/CancellationMail';
 import Queue from '../../lib/Queue';
 
 class EnrollmentController {
   async index(req, res) {
     if (req.params.enrollmentId) {
-      const Enrollments = await Enrollment.findAll({
-        attributes: ['id', 'start_date', 'end_date', 'price'],
-        include: [
-          {
-            model: Student,
-            as: 'student',
-            attributes: ['id', 'name'],
-          },
-          {
-            model: Plan,
-            as: 'plan',
-            attributes: ['id', 'title', 'price', 'duration', 'createdAt'],
-          },
-        ],
+      const enrollment = await Enrollment.findOne({
+        where: { id: req.params.enrollmentId },
       });
-      const Students = await Student.findAll({ attributes: ['id', 'name'] });
 
-      const array = [];
-      let i;
-      for (i = 0; i < Students.length; i++) {
-        if (!Enrollments.find(e => e.student.id === Students[i].id)) {
-          array[i] = Students[i];
-        }
+      if (!enrollment) {
+        return res.json({ error: 'enrollment not exist' });
       }
-      function isNull(value) {
-        return value !== null;
-      }
-      const students = array.filter(isNull);
 
-      return res.json({ students });
+      return res.json({ enrollment });
     }
+
     const { page = 1 } = req.query;
-    const Enrollments = await Enrollment.findAll({
+    const enrollments = await Enrollment.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price'],
       include: [
         {
@@ -63,7 +41,7 @@ class EnrollmentController {
       limit: 20,
       offset: (page - 1) * 20,
     });
-    return res.json({ Enrollments });
+    return res.json({ enrollments });
   }
 
   async store(req, res) {
@@ -115,16 +93,14 @@ class EnrollmentController {
     }
     const { end_date } = req.body;
 
-    const formattedDate = format(new Date(start_date), "dd 'de' MMMM yyyy", {
-      locale: pt,
-    });
     await Notification.create({
-      content: `Parabéns ${student.name}!! Você teve sua matricula efetivada no nosso plano: ${plan.title} que tem ${plan.duration} meses de duração. Suas aulas começam no dia ${formattedDate}.`,
+      content: `Parabéns ${student.name}!! Você teve sua matricula efetivada no nosso plano: ${plan.title} que tem ${plan.duration} meses de duração.`,
     });
     await Queue.add(EnrollmentMail.key, {
       student,
       plan,
-      formattedDate,
+      start_date,
+      end_date,
     });
 
     const enrollment = await Enrollment.create({
@@ -195,14 +171,6 @@ class EnrollmentController {
     }
 
     await enrollment.destroy();
-
-    await Notification.create({
-      content: `Caro ${enrollment.student.name} esse e-mail é para confirmar que sua matricula foi cancelada como solicitada, caso deseje voltar com a parceria, é só você responder este mesmo e-mail`,
-    });
-
-    await Queue.add(CancellationMail.key, {
-      enrollment,
-    });
 
     return res.json({ enrollment });
   }

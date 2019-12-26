@@ -18,9 +18,8 @@ export default function Enrollments() {
   useEffect(() => {
     async function handleState() {
       const response = await api.get('enrollments');
-      const { Enrollments } = response.data;
 
-      const enrollmentDateFormatted = Enrollments.map(enrollment => {
+      const enrollment = response.data.enrollments.map(enrollment => {
         enrollment.formattedInitDate = format(
           parseISO(enrollment.start_date),
           "dd 'de' MMMM 'de' yyyy",
@@ -34,7 +33,7 @@ export default function Enrollments() {
         return enrollment;
       });
 
-      setEnrollments(enrollmentDateFormatted);
+      setEnrollments(enrollment);
     }
     handleState();
   }, [idDelete]);

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Form, Input, Select } from '@rocketseat/unform';
 import { addMonths, getDate, getMonth, getYear, parseISO } from 'date-fns';
 
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
@@ -24,9 +23,8 @@ export default function EditStudent() {
 
   useEffect(() => {
     async function getStudents() {
-      const response = await api.get(`enrollments/${enrollment.id}`);
-      const { students } = response.data;
-      const arrayStudents = students.map(student => {
+      const response = await api.get(`students`);
+      const arrayStudents = response.data.students.map(student => {
         const title = student.name;
         const { id } = student;
         return (student = { id, title });
@@ -35,8 +33,7 @@ export default function EditStudent() {
     }
     async function getPlans() {
       const response = await api.get('plans');
-      const { Plans } = response.data;
-      setPlans(Plans);
+      setPlans(response.data.plans);
     }
     getStudents();
     getPlans();

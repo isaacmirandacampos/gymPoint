@@ -48,7 +48,7 @@ export default function RegisterPlans() {
 
   useEffect(() => {
     async function getStudents() {
-      const response = await api.get('enrollments/3');
+      const response = await api.get('students');
       const { students } = response.data;
       const arrayStudents = students.map(student => {
         const title = student.name;
@@ -59,8 +59,7 @@ export default function RegisterPlans() {
     }
     async function getPlans() {
       const response = await api.get('plans');
-      const { Plans } = response.data;
-      setPlans(Plans);
+      setPlans(response.data.plans);
     }
     getStudents();
     getPlans();

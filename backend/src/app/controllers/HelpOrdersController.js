@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 import HelpOrders from '../models/HelpOrders';
 
-import HelpOrdersMail from '../jobs/HelpOrdersMail';
+import AnswerMail from '../jobs/AnswerMail';
 import Queue from '../../lib/Queue';
 
 class HelpOrdersController {
@@ -75,26 +75,34 @@ class HelpOrdersController {
       return res.status(400).json({ error: 'invalid answer' });
     }
     const id = req.params.id_answer;
-    const question = await HelpOrders.findOne({
+    const helpOrderPast = await HelpOrders.findOne({
       where: { id, answer: null },
       include: [
         { model: Student, as: 'students', attributes: ['name', 'email'] },
       ],
     });
 
-    if (!question) {
+    if (!helpOrderPast) {
       return res.status(400).json('question not exist');
     }
-    req.body.answerAt = new Date();
 
-    const questionAtt = await question.update({
+    const helpOrder = await helpOrderPast.update({
       answer: req.body.answer,
       answer_at: new Date(),
     });
-    const { helpOrders, ask, answer } = questionAtt;
-    await Queue.add(HelpOrdersMail.key, { helpOrders, ask, answer });
 
-    return res.json({ questionAtt });
+    const { name, email } = helpOrder.students;
+
+    const { question, answer } = helpOrder;
+
+    await Queue.add(AnswerMail.key, {
+      name,
+      email,
+      question,
+      answer,
+    });
+
+    return res.json({ helpOrder });
   }
 }
 export default new HelpOrdersController();

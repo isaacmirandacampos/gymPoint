@@ -11,8 +11,8 @@ class StudentController {
       const student = await Student.findOne({ where: { id: studentId } });
       return res.json({ student });
     }
-    const Students = await Student.findAll();
-    return res.json({ Students });
+    const students = await Student.findAll();
+    return res.json({ students });
   }
 
   async store(req, res) {
@@ -91,12 +91,17 @@ class StudentController {
     if (!student) {
       return res.status(400).json({ error: 'Student not exist' });
     }
-    const enrollment = Enrollment.findOne({ where: { student_id: id } });
-    if (!enrollment) {
+
+    const enrollment = await Enrollment.findOne({
+      where: { student_id: id },
+    });
+
+    if (enrollment) {
       return res.status(400).json({ error: 'Student is enrolled' });
     }
 
-    await await student.destroy();
+    await student.destroy();
+
     return res.json({ success: 'Student delete' });
   }
 }

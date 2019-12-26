@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   id: null,
   name: null,
   question: null,
+  answer: undefined,
   show: false,
 };
 
@@ -17,9 +18,7 @@ export default function helpOrders(state = INITIAL_STATE, action) {
         draft.show = true;
         break;
       case '@helpOrders/CLOSE_MODAL':
-        draft.id = null;
-        draft.name = null;
-        draft.question = null;
+        draft.answer = action.answer;
         draft.show = false;
         break;
       default:

@@ -16,8 +16,7 @@ export default function Plans() {
   useEffect(() => {
     async function handleState() {
       const response = await api.get('plans');
-      const { Plans } = response.data;
-      setPlans(Plans);
+      setPlans(response.data.plans);
     }
     handleState();
   }, [idDelete]);

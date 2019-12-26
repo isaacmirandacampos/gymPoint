@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import Plan from '../models/Plan';
+import Enrollment from '../models/Enrollment';
 
 class PlanController {
   async index(req, res) {
@@ -12,11 +13,11 @@ class PlanController {
       });
       return res.json({ plan });
     }
-    const Plans = await Plan.findAll({
+    const plans = await Plan.findAll({
       attributes: ['id', 'title', 'duration', 'price'],
       order: ['price'],
     });
-    return res.json({ Plans });
+    return res.json({ plans });
   }
 
   async store(req, res) {
@@ -75,13 +76,12 @@ class PlanController {
       return res.status(400).json({ error: 'Plan not exist' });
     }
 
-    const enrollment = Enrollment.findOne({ where: { plan_id: id } });
-    if (!enrollment) {
+    const enrollment = await Enrollment.findOne({ where: { plan_id: id } });
+    if (enrollment) {
       return res
         .status(400)
         .json({ error: 'Students is enrolled with this plan' });
     }
-
     await plan.destroy();
 
     return res.json({ success: 'Plan delete' });
