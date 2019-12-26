@@ -1,9 +1,8 @@
-# REST-API for Gym Point
+<p align="center" >
+  <img src="https://github.com/isaacmirandacampos/gympoint/blob/master/.github/gympoint.png" width="250" >
+</p>
 
-This api is a challenge for Rocketseat Course, i too go create the mobile and web application to consumes this api.
+## instalação
 
-# Functionality
-this api register user, user login, register student and enrollment, too does schedule and chekins, notification and send e-mail.
-
-# Technologyes
-Node.js, express, date-fns, mongoose, sequelize, bcryptjs, jsonwebtoken, postgres, mongoose and mongodb, redis and bee-queue, yup for validation and younch for debug, nodemailer for send e-mails and too sucrase.
+download do repositório:
+git clone https://github.com/isaacmirandacampos/gympoint.git
