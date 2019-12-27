@@ -7,22 +7,26 @@
 
 para baixar o repositório rode o comando a seguir:
 
-git clone https://github.com/isaacmirandacampos/gympoint.git <br/>
+<strong>git clone https://github.com/isaacmirandacampos/gympoint.git<strong/> <br/>
 
 configure um arquivo .env dentro da pasta gympoint/backend seguindo os mesmos campos do arquivo .env.example <br/>
 <strong>Embora o mongodb seja uma dependência do backend, ele não está sendo utilizado por enquanto no frotend ou mobile.</strong>
 <br />
-Execute o comando yarn sequelize db:migrate
 
-após configurar, execute o comando: yarn dev <br/>
+Execute o comando <strong>yarn sequelize db:migrate<strong />
 
-execute também o comando: yarn queue <br/>
+após configurar, execute o comando: <strong>yarn dev<strong/> <br/>
+
+execute também o comando: <strong> yarn queue <strong /><br/>
 
 ### Web
 
-execute yarn e quando finalizar, execute o yarn start <br />
+execute <strong>yarn</strong> e quando finalizar, execute o <strong>yarn start<strong /> <br />
 
 ### Mobile
 
-execute o comando yarn e logo após o yarn start, em seguida você pode executar o npx react-native run-ios <br />
-O aplicativo foi testado somente em dispositivo ios
+<strong>O aplicativo foi testado somente em dispositivo ios<strong />
+
+Execute o comando <strong>yarn <strong> e logo após o <strong>yarn start<strong />, em seguida você pode executar o <strong>npx react-native run-ios<strong /> <br />
+  
+
