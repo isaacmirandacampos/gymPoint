@@ -3,15 +3,25 @@
 </p>
 <h2 align="center" >Desafio de conclusão de curso da Rocketseat</h2>
 
-## instalação
+### backend
+para baixar o repositório rode o comando a seguir:
 
-<p>download do repositório: </p>
-git clone https://github.com/isaacmirandacampos/gympoint.git
-<br/>
-<p>configure um arquivo <strong>.env</strong> dentro da pasta gympoint/backend seguindo os mesmos campos do <strong>.env.example</strong></p>
-<br/>
-<p>Após configura rode o comando: </p>
-yarn dev
-<br/>
-<p>Rode também o comando:</p>
-yarn queue
+git clone https://github.com/isaacmirandacampos/gympoint.git <br/>
+
+configure um arquivo .env dentro da pasta gympoint/backend seguindo os mesmos campos do arquivo .env.example <br/>
+Embora o mongodb seja uma dependência do backend, ele não está sendo utilizado por enquanto.
+
+Execute o comando yarn sequelize db:migrate
+
+após configurar, execute o comando: yarn dev <br/>
+
+execute também o comando: yarn queue <br/>
+
+### web
+
+execute yarn e logo após o yarn start <br />
+
+### mobile
+
+execute o yarn e logo após o yarn start em seguida npx react-native run-ios <br />
+O aplicativo foi testado somente em dispositivo ios
