@@ -19,9 +19,9 @@ execute também o comando: yarn queue <br/>
 
 ### web
 
-execute yarn e logo após o yarn start <br />
+execute yarn e quando finalizar, execute o yarn start <br />
 
 ### mobile
 
-execute o yarn e logo após o yarn start em seguida npx react-native run-ios <br />
+execute o comando yarn e logo após o yarn start, em seguida você pode executar o npx react-native run-ios <br />
 O aplicativo foi testado somente em dispositivo ios
