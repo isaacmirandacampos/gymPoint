@@ -10,6 +10,8 @@ import HelpOrders from '../app/models/HelpOrders';
 
 import databaseConfig from '../config/database';
 
+require('dotenv/config');
+
 const models = [User, Student, Plan, Enrollment, Checkins, HelpOrders];
 
 class Database {
@@ -28,14 +30,11 @@ class Database {
   }
 
   mongo() {
-    this.mongoConnection = mongoose.connect(
-      'mongodb://localhost:27017/gympoint',
-      {
-        useNewUrlParser: true,
-        useFindAndModify: true,
-        useUnifiedTopology: true,
-      }
-    );
+    this.mongoConnection = mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useFindAndModify: true,
+      useUnifiedTopology: true,
+    });
   }
 }
 
