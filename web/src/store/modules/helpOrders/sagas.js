@@ -1,5 +1,4 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
-import { useSelector, useStore } from 'react-redux';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
 import { closeModal } from './actions';
