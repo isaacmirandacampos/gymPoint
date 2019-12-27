@@ -3,7 +3,7 @@
 </p>
 <h2 align="center" >Desafio de conclusão de curso da Rocketseat</h2>
 
-para baixar o repositório rode o comando a seguir:
+para baixar o repositório execute o comando a seguir:
 <strong> git clone https://github.com/isaacmirandacampos/gympoint.git </strong> <br/>
 
 ### Backend
