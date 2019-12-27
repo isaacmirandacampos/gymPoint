@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
+import { lighten } from 'polished';
 import colors from '../../../styles/colors';
 
 export const Wrapper = styled.div`

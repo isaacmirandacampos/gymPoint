@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
 import api from '../../../services/api';
+import { formatter } from '../../../util/formatter';
 
 import { Container } from '../../../styles/layoutsDefaults';
 
@@ -17,7 +18,7 @@ const schema = Yup.object().shape({
 });
 
 export default function EditStudent() {
-  const plan = useSelector((state) => state.plan.payload);
+  const plan = useSelector(state => state.plan.payload);
 
   async function handleEdit({ title, duration, price }) {
     try {
@@ -58,8 +59,8 @@ export default function EditStudent() {
           <div className="read-only">
             <p>preço total</p>
             <Input
-              type="number"
-              value={plan.price * plan.duration}
+              type="text"
+              value={formatter.format(plan.price * plan.duration)}
               readOnly
               name="totalPrice"
             />

@@ -6,6 +6,7 @@ import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
 import { loadEditPlan } from '../../store/modules/plan/actions';
+import { formatter } from '../../util/formatter';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
@@ -16,7 +17,11 @@ export default function Plans() {
   useEffect(() => {
     async function handleState() {
       const response = await api.get('plans');
-      setPlans(response.data.plans);
+      const formatted = response.data.plans.map(plan => {
+        plan.formatted = formatter.format(plan.price);
+        return plan;
+      });
+      setPlans(formatted);
     }
     handleState();
   }, [idDelete]);
@@ -62,7 +67,7 @@ export default function Plans() {
               <tr key={plan.id}>
                 <td>{plan.title}</td>
                 <td>{plan.duration}</td>
-                <td>{plan.price}</td>
+                <td>{plan.formatted}</td>
                 <td>
                   <button onClick={() => handleEdit(plan)}>editar</button>
                   <button onClick={() => handleDelete(plan.id)}>apagar</button>

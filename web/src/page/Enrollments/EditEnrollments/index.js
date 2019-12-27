@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
 import api from '../../../services/api';
+import { formatter } from '../../../util/formatter';
 
 import { Container } from '../../../styles/layoutsDefaults';
 
@@ -49,8 +50,9 @@ export default function EditStudent() {
     });
 
     const finalPrice = priceChoose[i] * durationChoose[i];
-
-    setTotalPrice(finalPrice);
+    if (finalPrice) {
+      setTotalPrice(formatter.format(finalPrice));
+    }
 
     const finalDate = addMonths(parseISO(startDate), durationChoose[i]);
     if (durationChoose && startDate) {
@@ -128,9 +130,9 @@ export default function EditStudent() {
           <div className="read-only">
             <p>Valor final</p>
             <Input
-              type="number"
+              type="text"
               readOnly
-              value={totalPrice}
+              value={totalPrice || 'R$'}
               name="totalPrice"
             />
           </div>

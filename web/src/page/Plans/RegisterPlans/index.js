@@ -8,6 +8,7 @@ import history from '../../../services/history';
 import api from '../../../services/api';
 
 import { Container } from '../../../styles/layoutsDefaults';
+import { formatter } from '../../../util/formatter';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Nome obrigatorio'),
@@ -18,13 +19,13 @@ const schema = Yup.object().shape({
 export default function RegisterPlans() {
   const [duration, setDuration] = useState();
   const [price, setPrice] = useState();
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState('R$');
 
   useEffect(() => {
-    if (duration > '' && price > 0) {
-      setTotalPrice(duration * price);
+    if (duration > 0 && price > 0) {
+      setTotalPrice(formatter.format(duration * price));
     } else {
-      setTotalPrice(0);
+      setTotalPrice('R$');
     }
   }, [duration, price]);
 
@@ -86,12 +87,11 @@ export default function RegisterPlans() {
           <div className="read-only">
             <p>Preco total</p>
             <Input
-              type="number"
-              step=".01"
+              type="text"
               required
               readOnly
               name="priceTotal"
-              value={totalPrice}
+              value={totalPrice || 'R$'}
             />
           </div>
         </div>

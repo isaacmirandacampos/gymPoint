@@ -2,25 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from '@rocketseat/unform';
 import { addMonths, parseISO, getDate, getMonth, getYear } from 'date-fns';
 
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
 import api from '../../../services/api';
+import { formatter } from '../../../util/formatter';
 
 import { Container } from '../../../styles/layoutsDefaults';
-
-const schema = Yup.object().shape({
-  name: Yup.string().required('Nome do estudante e obrigatorio'),
-  title: Yup.string('Nome do plano').required('Nome e obrigatorio'),
-  start_date: Yup.date('Digite a data de inicio').required('Data obrigatoria'),
-});
 
 export default function RegisterPlans() {
   const [students, setStudents] = useState([]);
   const [plans, setPlans] = useState([]);
   const [idPlan, setIdPlan] = useState();
-  const [idStudent, setIdStudent] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState('dd/mm/yyyy');
   const [totalPrice, setTotalPrice] = useState(0);
@@ -35,8 +28,10 @@ export default function RegisterPlans() {
     });
 
     const finalPrice = priceChoose[i] * durationChoose[i];
+    if (finalPrice) {
+      setTotalPrice(formatter.format(finalPrice));
+    }
 
-    setTotalPrice(finalPrice);
     const finalDate = addMonths(parseISO(startDate), durationChoose[i]);
     if (durationChoose && startDate) {
       const day = getDate(finalDate);
@@ -97,11 +92,7 @@ export default function RegisterPlans() {
       <Form onSubmit={handleRegister}>
         <div className="big">
           <p>Nome do aluno</p>
-          <Select
-            name="student_id"
-            onChange={e => setIdStudent(e.target.value)}
-            options={students}
-          />
+          <Select name="student_id" options={students} />
         </div>
         <div>
           <div>
@@ -135,7 +126,7 @@ export default function RegisterPlans() {
             <p>Valor total</p>
             <Input
               type="text"
-              value={totalPrice}
+              value={totalPrice || 'R$'}
               required
               name="total_price"
               readOnly
