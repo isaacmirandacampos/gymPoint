@@ -3,30 +3,30 @@
 </p>
 <h2 align="center" >Desafio de conclusão de curso da Rocketseat</h2>
 
+para baixar o repositório rode o comando a seguir:
+<strong> git clone https://github.com/isaacmirandacampos/gympoint.git </strong> <br/>
+
 ### Backend
 
-para baixar o repositório rode o comando a seguir:
 
-<strong>git clone https://github.com/isaacmirandacampos/gympoint.git<strong/> <br/>
-
-configure um arquivo .env dentro da pasta gympoint/backend seguindo os mesmos campos do arquivo .env.example <br/>
+configure um arquivo <strong>.env</strong> dentro da pasta gympoint/backend seguindo os mesmos campos do arquivo <strong>.env.example</strong> dentro da pasta gympoint/backend <br/>
 <strong>Embora o mongodb seja uma dependência do backend, ele não está sendo utilizado por enquanto no frotend ou mobile.</strong>
 <br />
 
-Execute o comando <strong>yarn sequelize db:migrate<strong />
+Execute o comando <strong>yarn sequelize db:migrate</strong>
 
-após configurar, execute o comando: <strong>yarn dev<strong/> <br/>
+após configurar, execute o comando: <strong>yarn dev</strong> <br/>
 
-execute também o comando: <strong> yarn queue <strong /><br/>
+execute também o comando: <strong> yarn queue </strong><br/>
 
 ### Web
 
-execute <strong>yarn</strong> e quando finalizar, execute o <strong>yarn start<strong /> <br />
+dentro da pasta gympoint/web, execute o comando <strong>yarn</strong> e quando finalizar, execute o <strong>yarn start</strong><br />
 
 ### Mobile
 
-<strong>O aplicativo foi testado somente em dispositivo ios<strong />
+<strong>O aplicativo foi testado somente em dispositivo ios</strong>
 
-Execute o comando <strong>yarn <strong> e logo após o <strong>yarn start<strong />, em seguida você pode executar o <strong>npx react-native run-ios<strong /> <br />
+Dentro da pasta gympoint/mobile, execute o comando <strong>yarn </strong> e logo após o <strong>yarn start</strong>, em seguida você pode executar o <strong>npx react-native run-ios</strong> <br />
   
 
