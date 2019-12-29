@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
 import api from '../../../services/api';
-import { formatter } from '../../../util/formatter';
+import formatterPrice from '../../../util/formatter';
 
 import { Container } from '../../../styles/layoutsDefaults';
 
@@ -60,7 +60,7 @@ export default function EditStudent() {
             <p>preço total</p>
             <Input
               type="text"
-              value={formatter.format(plan.price * plan.duration)}
+              value={formatterPrice(plan.price * plan.duration)}
               readOnly
               name="totalPrice"
             />

@@ -16,7 +16,8 @@ export const Container = styled.div`
 
 export const Search = styled(MdSearch)`
   position: relative;
-  left: 30px;
+  left: 25px;
+  bottom: 1px;
   color: #999;
   height: 20px;
   width: 20px;

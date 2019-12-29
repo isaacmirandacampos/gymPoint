@@ -8,7 +8,7 @@ import history from '../../../services/history';
 import api from '../../../services/api';
 
 import { Container } from '../../../styles/layoutsDefaults';
-import { formatter } from '../../../util/formatter';
+import formatterPrice from '../../../util/formatter';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Nome obrigatorio'),
@@ -23,7 +23,7 @@ export default function RegisterPlans() {
 
   useEffect(() => {
     if (duration > 0 && price > 0) {
-      setTotalPrice(formatter.format(duration * price));
+      setTotalPrice(formatterPrice(duration * price));
     } else {
       setTotalPrice('R$');
     }

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import history from '../../../services/history';
 import api from '../../../services/api';
-import { formatter } from '../../../util/formatter';
+import formatterPrice from '../../../util/formatter';
 
 import { Container } from '../../../styles/layoutsDefaults';
 
@@ -51,7 +51,7 @@ export default function EditStudent() {
 
     const finalPrice = priceChoose[i] * durationChoose[i];
     if (finalPrice) {
-      setTotalPrice(formatter.format(finalPrice));
+      setTotalPrice(formatterPrice(finalPrice));
     }
 
     const finalDate = addMonths(parseISO(startDate), durationChoose[i]);

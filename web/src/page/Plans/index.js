@@ -6,7 +6,7 @@ import history from '../../services/history';
 import api from '../../services/api';
 import { Container, ScrollTable } from './styles';
 import { loadEditPlan } from '../../store/modules/plan/actions';
-import { formatter } from '../../util/formatter';
+import formatterPrice from '../../util/formatter';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
@@ -18,7 +18,7 @@ export default function Plans() {
     async function handleState() {
       const response = await api.get('plans');
       const formatted = response.data.plans.map(plan => {
-        plan.formatted = formatter.format(plan.price);
+        plan.formatted = formatterPrice(plan.price);
         plan.notDelete = true;
         return plan;
       });
