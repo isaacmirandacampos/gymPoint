@@ -30,12 +30,23 @@ export default function Enrollments() {
           "dd 'de' MMMM 'de' yyyy",
           { locale: pt }
         );
+        enrollment.notDelete = true;
         return enrollment;
       });
 
       setEnrollments(enrollment);
     }
     handleState();
+  }, []);
+
+  useEffect(() => {
+    const array = enrollments.map(enrollment => {
+      if (idDelete === enrollment.id) {
+        enrollment.notDelete = false;
+      }
+      return enrollment;
+    });
+    setEnrollments(array);
   }, [idDelete]);
 
   function handleRegister() {
@@ -73,27 +84,32 @@ export default function Enrollments() {
               <th>termino</th>
               <th>Ativa</th>
             </tr>
-            {enrollments.map(enrollment => (
-              <tr key={enrollment.id}>
-                <td>{enrollment.student.name}</td>
-                <td>{enrollment.plan.title}</td>
-                <td>{enrollment.formattedInitDate}</td>
-                <td>{enrollment.formattedFinalDate}</td>
-                <td>
-                  {isBefore(enrollment.formattedFinalDate, new Date()) ? (
-                    <MdCheckCircle />
-                  ) : (
-                    <MdCheckCircle color="green" />
-                  )}
-                </td>
-                <td>
-                  <button onClick={() => handleEdit(enrollment)}>editar</button>
-                  <button onClick={() => handleDelete(enrollment.id)}>
-                    apagar
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {enrollments.map(
+              enrollment =>
+                enrollment.notDelete && (
+                  <tr key={enrollment.id}>
+                    <td>{enrollment.student.name}</td>
+                    <td>{enrollment.plan.title}</td>
+                    <td>{enrollment.formattedInitDate}</td>
+                    <td>{enrollment.formattedFinalDate}</td>
+                    <td>
+                      {isBefore(enrollment.formattedFinalDate, new Date()) ? (
+                        <MdCheckCircle />
+                      ) : (
+                        <MdCheckCircle color="green" />
+                      )}
+                    </td>
+                    <td>
+                      <button onClick={() => handleEdit(enrollment)}>
+                        editar
+                      </button>
+                      <button onClick={() => handleDelete(enrollment.id)}>
+                        apagar
+                      </button>
+                    </td>
+                  </tr>
+                )
+            )}
           </tbody>
         </table>
       </ScrollTable>

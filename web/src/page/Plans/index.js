@@ -19,11 +19,22 @@ export default function Plans() {
       const response = await api.get('plans');
       const formatted = response.data.plans.map(plan => {
         plan.formatted = formatter.format(plan.price);
+        plan.notDelete = true;
         return plan;
       });
       setPlans(formatted);
     }
     handleState();
+  }, []);
+
+  useEffect(() => {
+    const array = plans.map(plan => {
+      if (idDelete === plan.id) {
+        plan.notDelete = false;
+      }
+      return plan;
+    });
+    setPlans(array);
   }, [idDelete]);
 
   async function handleDelete(id) {
@@ -45,7 +56,6 @@ export default function Plans() {
   }
 
   const i = plans.find(p => p.id > 1);
-  console.tron.log(i);
 
   return (
     <Container>
@@ -63,17 +73,22 @@ export default function Plans() {
               <th>duração</th>
               <th>Valor p/ mês</th>
             </tr>
-            {plans.map(plan => (
-              <tr key={plan.id}>
-                <td>{plan.title}</td>
-                <td>{plan.duration}</td>
-                <td>{plan.formatted}</td>
-                <td>
-                  <button onClick={() => handleEdit(plan)}>editar</button>
-                  <button onClick={() => handleDelete(plan.id)}>apagar</button>
-                </td>
-              </tr>
-            ))}
+            {plans.map(
+              plan =>
+                plan.notDelete && (
+                  <tr key={plan.id}>
+                    <td>{plan.title}</td>
+                    <td>{plan.duration}</td>
+                    <td>{plan.formatted}</td>
+                    <td>
+                      <button onClick={() => handleEdit(plan)}>editar</button>
+                      <button onClick={() => handleDelete(plan.id)}>
+                        apagar
+                      </button>
+                    </td>
+                  </tr>
+                )
+            )}
           </tbody>
         </table>
       </ScrollTable>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MdSearch } from 'react-icons/md';
 
 export const Container = styled.div`
   padding: 30px;
@@ -11,6 +12,14 @@ export const Container = styled.div`
     padding: 5px 30px;
     font-size: 16px;
   }
+`;
+
+export const Search = styled(MdSearch)`
+  position: relative;
+  left: 30px;
+  color: #999;
+  height: 20px;
+  width: 20px;
 `;
 
 export const ScrollTable = styled.div`

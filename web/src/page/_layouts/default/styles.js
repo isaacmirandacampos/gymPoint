@@ -4,6 +4,8 @@ import colors from '../../../styles/colors';
 
 export const Wrapper = styled.div`
   height: 100%;
+  width: 100%;
+  min-width: 1200px;
 `;
 
 export const Content = styled.div`
