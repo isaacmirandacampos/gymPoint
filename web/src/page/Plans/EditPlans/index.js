@@ -49,15 +49,15 @@ export default function EditStudent() {
         </div>
         <div>
           <div>
-            <p>duraçāo</p>
+            <p>duraçāo <small>(em meses)</small></p>
             <Input type="number" name="duration" />
           </div>
           <div>
-            <p>Preço mensal</p>
+            <p>Preço mensal <small>(R$)</small></p>
             <Input type="number" step=".01" name="price" />
           </div>
           <div className="read-only">
-            <p>preço total</p>
+            <p>preço total <small>(R$)</small></p>
             <Input
               type="text"
               value={formatterPrice(plan.price * plan.duration)}

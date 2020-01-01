@@ -28,7 +28,7 @@ export default function SignIn() {
       <img src={logo} alt="gympoint" />
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input type="email" placeholder="Digite seu e-mail" name="email" />
-        <Input type="password" placeholder="Digite sua senha" name="password" />
+        <Input placeholder="Digite sua senha" type="password" name="password" />
         <button type="submit">Acessar</button>
         <Link to="/register">Criar uma conta gratuita</Link>
       </Form>

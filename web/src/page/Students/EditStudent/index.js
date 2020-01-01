@@ -68,7 +68,7 @@ export default function EditStudent() {
             <Input type="number" step=".01" name="idade" />
           </div>
           <div>
-            <p>peso</p>
+            <p>peso <small>(Kg)</small></p>
             <Input type="number" step=".01" name="peso" />
           </div>
           <div>

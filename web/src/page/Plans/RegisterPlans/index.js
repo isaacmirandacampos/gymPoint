@@ -60,7 +60,7 @@ export default function RegisterPlans() {
         </div>
         <div>
           <div>
-            <p>Duraçāo do plano</p>
+            <p>Duraçāo do plano <small>(em meses)</small></p>
             <Input
               type="number"
               required
@@ -71,7 +71,7 @@ export default function RegisterPlans() {
             />
           </div>
           <div>
-            <p>Preco plano</p>
+            <p>Preco plano <small>(R$)</small></p>
             <Input
               type="number"
               step=".01"
@@ -85,7 +85,7 @@ export default function RegisterPlans() {
           </div>
 
           <div className="read-only">
-            <p>Preco total</p>
+            <p>Preço total</p>
             <Input
               type="text"
               required

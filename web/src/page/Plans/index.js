@@ -70,8 +70,8 @@ export default function Plans() {
           <tbody>
             <tr>
               <th>Titulo</th>
-              <th>duração</th>
-              <th>Valor p/ mês</th>
+              <th>duração <small>(em meses)</small></th>
+              <th>Valor <small>(p/ meses)</small></th>
             </tr>
             {plans.map(
               plan =>

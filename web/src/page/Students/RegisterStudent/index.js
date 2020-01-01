@@ -65,7 +65,7 @@ export default function RegisterStudent() {
             />
           </div>
           <div>
-            <p>peso</p>
+            <p>peso <small>(kg)</small></p>
             <Input
               type="number"
               step=".01"
