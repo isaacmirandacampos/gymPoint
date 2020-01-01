@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import history from '../../services/history';
 import api from '../../services/api';
 import { Container, Search, ScrollTable } from './styles';
+import Button from '../../components/Button';
 import { loadEditStudent } from '../../store/modules/student/actions';
 
 export default function Students() {
@@ -103,12 +104,8 @@ export default function Students() {
                     <td>{student.email}</td>
                     <td>{student.idade}</td>
                     <td>
-                      <button onClick={() => handleEdit(student)}>
-                        editar
-                      </button>
-                      <button onClick={() => handleDelete(student.id)}>
-                        apagar
-                      </button>
+                      <button onClick={() => handleEdit(student)}>Editar</button>
+                      <button onClick={() => handleDelete(student.id)}>Apagar</button>
                     </td>
                   </tr>
                 )

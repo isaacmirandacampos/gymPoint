@@ -23,22 +23,26 @@ export const Content = styled.div`
       justify-content: space-between;
 
       div {
-        button:not(#back) {
-          background: ${colors.second};
+        button {
+          border: 0;
+          padding: 5px 30px;
+          font-size: 16px;
+          background-color: #999;
+          color: #fff;
+          margin-right: 10px;
+          border-radius: 4px;
         }
 
         button:hover {
           background-color: ${lighten(0.1, colors.second)};
         }
 
-        button {
-          border: 0;
-          background: #999;
-          padding: 5px 30px;
-          font-size: 16px;
-          color: #fff;
-          margin-right: 10px;
-          border-radius: 4px;
+        button:not(#back) {
+          background: ${colors.second};
+        }
+
+        button:not(#back):hover {
+          background-color: ${lighten(0.1, colors.second)};
         }
       }
     }

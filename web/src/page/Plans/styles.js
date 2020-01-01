@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   padding: 30px;
   width: 70%;
-  height: 60%;
+  height: 90%;
 `;
 
 export const ScrollTable = styled.div`

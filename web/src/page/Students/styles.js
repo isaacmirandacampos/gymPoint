@@ -70,6 +70,10 @@ export const ScrollTable = styled.div`
             color: #ff0000;
             margin-left: 20px;
           }
+
+          input:hover {
+            cursor: pointer;
+          }
         }
       }
 

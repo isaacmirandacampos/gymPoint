@@ -5,7 +5,7 @@ import { lighten } from 'polished';
 export const Container = styled.div`
   padding: 30px;
   width: 60%;
-  height: 80%;
+  height: 90%;
 `;
 
 export const ScrollTable = styled.div`
