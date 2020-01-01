@@ -18,7 +18,8 @@ import {
 } from './styles';
 
 export default function Checkins() {
-  const id = useSelector(state => state.user.profile.id);
+  const id = useSelector((state) => state.user.profile.id);
+  const loading = useSelector((state) => state.auth.loading);
   const [checkins, setCheckins] = useState([]);
   const [newCheckins, setNewCheckins] = useState([]);
 
@@ -29,11 +30,11 @@ export default function Checkins() {
         setCheckins(array);
       } else {
         const response = await api.get(`students/${id}/checkins`);
-        const newArray = response.data.checkins.map(checkin => {
+        const newArray = response.data.checkins.map((checkin) => {
           checkin.formattedDate = formatRelative(
             parseISO(checkin.createdAt),
             new Date(),
-            { locale: pt }
+            { locale: pt },
           );
           return checkin;
         });
@@ -43,7 +44,7 @@ export default function Checkins() {
     }
 
     loadCheckins();
-  }, [id, newCheckins]);
+  }, [checkins, id, newCheckins]);
 
   function renderCheckins({ item, index }) {
     return (
@@ -62,7 +63,7 @@ export default function Checkins() {
     } catch (err) {
       return Alert.alert(
         'Falha na tentativa',
-        'O máximo de check-ins atingidos na semana'
+        'O máximo de check-ins atingidos na semana',
       );
     }
   }
@@ -75,7 +76,7 @@ export default function Checkins() {
         </SubmitButton>
         <ColumnCheckins
           data={checkins}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={(item) => String(item.id)}
           renderItem={renderCheckins}
         />
       </Content>
